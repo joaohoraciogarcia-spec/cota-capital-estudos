@@ -1,1 +1,33 @@
-{"cleanUrls":true,"trailingSlash":false,"redirects":[{"source":"/","destination":"/estudos","permanent":false}],"headers":[{"source":"/(.*)","headers":[{"key":"X-Robots-Tag","value":"noindex, nofollow"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"},{"key":"X-Content-Type-Options","value":"nosniff"}]}]}
+{
+ "framework": null,
+ "buildCommand": "",
+ "outputDirectory": "public",
+ "cleanUrls": true,
+ "trailingSlash": false,
+ "redirects": [
+  {
+   "source": "/",
+   "destination": "/estudos",
+   "permanent": false
+  }
+ ],
+ "headers": [
+  {
+   "source": "/(.*)",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex, nofollow"
+    },
+    {
+     "key": "Referrer-Policy",
+     "value": "strict-origin-when-cross-origin"
+    },
+    {
+     "key": "X-Content-Type-Options",
+     "value": "nosniff"
+    }
+   ]
+  }
+ ]
+}
