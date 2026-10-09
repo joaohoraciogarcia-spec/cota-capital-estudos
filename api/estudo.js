@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
-const { ESTUDOS, PRECO_ESTUDO, PRECO_RENOVACAO, DIAS_ACESSO, PIX, rpc, lerSessao, lerLead, chaveDerivada, crypto } = require('./_lib');
+const { ESTUDOS, PRECO_ESTUDO, PRECO_RENOVACAO, DIAS_ACESSO, PIX, rpc, lerSessao, lerLead, chaveDerivada, crypto } = require('../lib/_lib');
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
