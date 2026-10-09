@@ -1,0 +1,23 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assinatura ativada · Diário Imobiliário Litoral Catarinense</title><meta name="description" content="Assinatura do Diário Imobiliário Litoral Catarinense ativada."><meta name="robots" content="noindex">
+<meta name="theme-color" content="#060A10">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/diario/diario.css"></head><body><div class="w">
+<nav><a class="brand" href="/diario"><span class="seal"><img src="/diario/selo.png" alt=""></span><span><b>Cota Capital Conect</b><small>Diário Imobiliário Litoral Catarinense</small></span></a>
+<div class="links"><a href="/news">News</a><a href="/estudos">Estudos</a><a href="/diario#assinar" style="color:var(--gold)">Assinar</a></div></nav>
+<main class="center"><div class="badge"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4FBF8B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+<p class="eyebrow">Cota Capital Conect</p><h1 style="margin:0 auto 18px;max-width:18ch">Assinatura ativada!</h1>
+<p class="lede">Você receberá o Diário no seu e-mail todos os dias às 9h.</p>
+<p class="msg" id="st" role="status" aria-live="polite" style="margin-top:22px"></p>
+<p style="margin-top:28px"><a class="btn ghost" style="width:auto;padding:14px 22px" href="/news">Enquanto isso, veja as news de hoje</a></p></main><footer><div class="fgrid">
+<div class="sample"><h3>Receba uma edição de amostra grátis</h3><p>Veja como o Diário chega antes de assinar. Uma edição, sem compromisso.</p>
+<form id="amostra" class="inl" novalidate><label class="fld" for="amostra-email" style="position:absolute;left:-9999px">E-mail para a amostra</label><input id="amostra-email" type="email" autocomplete="email" placeholder="seu@email.com.br" required><button class="btn" type="submit">Quero a amostra</button></form><p class="msg" role="status" aria-live="polite"></p></div>
+<div class="flinks"><a href="/diario">Assinar</a><a href="/news">News do mercado</a><a href="/diario/cancelar">Cancelar assinatura</a></div></div>
+<div class="legal"><span>Cota Capital Conect · Diário Imobiliário Litoral Catarinense · SC Cota Capital Intelligence</span><span>Pagamento processado pelo Mercado Pago. Cancele quando quiser.</span></div>
+</footer></div><script src="/diario/diario.js"></script><script>
+(function(){var q=new URLSearchParams(location.search),id=q.get('preapproval_id'),st=document.getElementById('st');if(!id)return;
+fetch('/api/confirmar?preapproval_id='+encodeURIComponent(id)).then(function(r){return r.json()}).then(function(j){
+ if(j.status==='pending'){DIARIO.msg(st,'O Mercado Pago ainda está confirmando o pagamento. Você recebe a primeira edição assim que ele for aprovado.')}
+ else if(j.status==='cancelled'){DIARIO.msg(st,'O pagamento não foi concluído. Você pode tentar de novo na página de assinatura.','err')}}).catch(function(){})})();
+</script></body></html>

@@ -1,0 +1,26 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cancelar assinatura · Diário Imobiliário Litoral Catarinense</title><meta name="description" content="Cancele sua assinatura do Diário Imobiliário Litoral Catarinense."><meta name="robots" content="noindex">
+<meta name="theme-color" content="#060A10">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/diario/diario.css"></head><body><div class="w">
+<nav><a class="brand" href="/diario"><span class="seal"><img src="/diario/selo.png" alt=""></span><span><b>Cota Capital Conect</b><small>Diário Imobiliário Litoral Catarinense</small></span></a>
+<div class="links"><a href="/news">News</a><a href="/estudos">Estudos</a><a href="/diario#assinar" style="color:var(--gold)">Assinar</a></div></nav>
+<main class="center" style="text-align:left"><p class="eyebrow">Cancelar assinatura</p><h1 style="max-width:20ch">Cancelar o Diário Imobiliário</h1>
+<p class="lede">Informe o e-mail usado na assinatura. A cobrança mensal é encerrada no Mercado Pago na hora e você deixa de receber as edições.</p>
+<div class="panel"><form id="c" novalidate><label class="fld" for="ce">E-mail da assinatura</label><input id="ce" type="email" autocomplete="email" placeholder="seu@email.com.br" required>
+<button class="btn" id="cb" type="submit">Cancelar assinatura</button></form><p class="msg" id="cm" role="status" aria-live="polite"></p></div></main><footer><div class="fgrid">
+<div class="sample"><h3>Receba uma edição de amostra grátis</h3><p>Veja como o Diário chega antes de assinar. Uma edição, sem compromisso.</p>
+<form id="amostra" class="inl" novalidate><label class="fld" for="amostra-email" style="position:absolute;left:-9999px">E-mail para a amostra</label><input id="amostra-email" type="email" autocomplete="email" placeholder="seu@email.com.br" required><button class="btn" type="submit">Quero a amostra</button></form><p class="msg" role="status" aria-live="polite"></p></div>
+<div class="flinks"><a href="/diario">Assinar</a><a href="/news">News do mercado</a><a href="/diario/cancelar">Cancelar assinatura</a></div></div>
+<div class="legal"><span>Cota Capital Conect · Diário Imobiliário Litoral Catarinense · SC Cota Capital Intelligence</span><span>Pagamento processado pelo Mercado Pago. Cancele quando quiser.</span></div>
+</footer></div><script src="/diario/diario.js"></script><script>
+(function(){var f=document.getElementById('c'),i=document.getElementById('ce'),b=document.getElementById('cb'),m=document.getElementById('cm');
+f.addEventListener('submit',function(e){e.preventDefault();var v=i.value.trim().toLowerCase();
+if(!DIARIO.emailOk(v)){DIARIO.msg(m,'Informe um e-mail válido.','err');i.focus();return}
+b.disabled=true;DIARIO.msg(m,'Cancelando…');
+DIARIO.post('/api/cancelar',{email:v}).then(function(j){
+ if(j.ok){DIARIO.msg(m,'Pronto. Se havia uma assinatura ativa para '+v+', ela foi cancelada e não haverá novas cobranças.','ok');f.reset()}
+ else DIARIO.msg(m,j.erro||'Não foi possível cancelar agora. Tente novamente.','err')})
+.catch(function(){DIARIO.msg(m,'Sem conexão. Tente novamente.','err')}).then(function(){b.disabled=false})})})();
+</script></body></html>

@@ -1,0 +1,69 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin · Assinantes do Diário</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#060A10">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/diario/diario.css">
+<style>
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:0 0 24px}
+.kpi{background:var(--card2);padding:20px}.kpi b{display:block;font:800 30px/1 var(--d);margin-bottom:8px}.kpi span{font:700 11px/1 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.kpi.gold b{color:var(--gold)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:600 14px/1 var(--b);color:var(--ink2);background:transparent;border:1px solid var(--line);border-radius:999px;padding:9px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#10161D}
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th{text-align:left;font:700 11px/1 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:12px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:13px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl td.num{font-family:var(--m);font-size:13px;color:var(--ink2);white-space:nowrap}
+.st{font:700 11px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.st.ativo{background:rgba(79,191,139,.14);color:var(--ok)}.st.cancelado{background:rgba(240,138,122,.12);color:var(--err)}.st.pendente{background:rgba(140,154,171,.14);color:var(--ink2)}
+.mini{font:600 13px var(--b);color:var(--ink2);background:transparent;border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer}.mini:hover{border-color:var(--err);color:var(--err)}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card2)}
+.empty{padding:40px;text-align:center;color:var(--mut)}
+.login{max-width:420px;margin:40px auto 80px}
+#csv{width:auto;margin:0;padding:12px 18px;font-size:15px}
+@media (max-width:760px){.kpis{grid-template-columns:1fr 1fr}.tbl .hide{display:none}}
+</style></head><body><div class="w">
+<nav><a class="brand" href="/diario"><span class="seal"><img src="/diario/selo.png" alt=""></span><span><b>Cota Capital Conect</b><small>Admin · Assinantes do Diário</small></span></a></nav>
+
+<section class="login" id="login"><p class="eyebrow">Área restrita</p><h1 style="font-size:38px">Assinantes do Diário</h1>
+<div class="panel"><form id="lf" novalidate><label class="fld" for="pw">Senha de administrador</label><input id="pw" type="password" autocomplete="current-password" required>
+<button class="btn" id="lb" type="submit">Entrar</button></form><p class="msg" id="lm" role="status" aria-live="polite"></p></div></section>
+
+<main id="app" hidden>
+<div class="kpis"><div class="kpi gold"><b id="k-mrr">—</b><span>MRR</span></div><div class="kpi"><b id="k-at">—</b><span>Ativos</span></div><div class="kpi"><b id="k-ca">—</b><span>Cancelados</span></div><div class="kpi"><b id="k-pe">—</b><span>Pendentes</span></div></div>
+<div class="bar"><div class="chips" role="group" aria-label="Filtrar por status"><button class="chip" data-f="ativo" aria-pressed="true">Ativos</button><button class="chip" data-f="cancelado" aria-pressed="false">Cancelados</button><button class="chip" data-f="pendente" aria-pressed="false">Pendentes</button><button class="chip" data-f="" aria-pressed="false">Todos</button></div>
+<button class="btn ghost" id="csv" type="button">Exportar CSV</button></div>
+<div class="wrap"><table class="tbl"><thead><tr><th>E-mail</th><th>Status</th><th>Assinou em</th><th class="hide">Cancelou em</th><th></th></tr></thead><tbody id="tb"></tbody></table></div>
+<p class="msg" id="am" role="status" aria-live="polite"></p>
+</main>
+</div>
+<script>
+(function(){
+var senha='',dados=null,filtro='ativo',$=function(i){return document.getElementById(i)};
+var brl=function(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})};
+var dt=function(s){return s?new Date(s).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}):'—'};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+function api(body){return fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({senha:senha},body))}).then(function(r){return r.json().then(function(j){j._s=r.status;return j})})}
+function render(){
+  $('k-mrr').textContent=brl(dados.mrr);$('k-at').textContent=dados.ativos;$('k-ca').textContent=dados.cancelados;$('k-pe').textContent=dados.pendentes;
+  var rows=dados.assinantes.filter(function(a){return !filtro||a.status===filtro});
+  $('tb').innerHTML=rows.length?rows.map(function(a){return '<tr><td>'+esc(a.email)+'</td><td><span class="st '+a.status+'">'+a.status+'</span></td><td class="num">'+dt(a.assinado_em)+'</td><td class="num hide">'+dt(a.cancelado_em)+'</td><td style="text-align:right">'+(a.status==='ativo'?'<button class="mini" data-id="'+a.id+'" data-e="'+esc(a.email)+'">Cancelar</button>':'')+'</td></tr>'}).join(''):'<tr><td colspan="5" class="empty">Nenhum assinante neste filtro ainda.</td></tr>';
+}
+function carregar(){return api({acao:'lista'}).then(function(j){if(j._s!==200)throw j;dados=j;render()})}
+$('lf').addEventListener('submit',function(e){e.preventDefault();senha=$('pw').value;$('lb').disabled=true;DIARIO_msg($('lm'),'Entrando…');
+  carregar().then(function(){$('login').hidden=true;$('app').hidden=false;try{sessionStorage.setItem('cci-adm',senha)}catch(_){}})
+  .catch(function(j){DIARIO_msg($('lm'),(j&&j.erro)||'Não foi possível entrar.','err')}).then(function(){$('lb').disabled=false})});
+document.querySelectorAll('.chip').forEach(function(b){b.onclick=function(){filtro=b.dataset.f;document.querySelectorAll('.chip').forEach(function(o){o.setAttribute('aria-pressed',o===b)});render()}});
+$('tb').addEventListener('click',function(e){var b=e.target.closest('button[data-id]');if(!b)return;
+  if(b.dataset.c!=='1'){b.dataset.c='1';b.textContent='Confirmar?';setTimeout(function(){if(b.isConnected){b.dataset.c='';b.textContent='Cancelar'}},4000);return}
+  b.disabled=true;b.textContent='Cancelando…';api({acao:'cancelar',id:b.dataset.id}).then(function(j){if(j._s!==200)throw j;dados=j;render();DIARIO_msg($('am'),'Assinatura de '+b.dataset.e+' cancelada no Mercado Pago.','ok')})
+  .catch(function(j){DIARIO_msg($('am'),(j&&j.erro)||'Não foi possível cancelar.','err');b.disabled=false;b.textContent='Cancelar'})});
+$('csv').onclick=function(){if(!dados)return;var c=function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'};
+  var linhas=[['email','status','assinado_em','cancelado_em','mp_preapproval_id']].concat(dados.assinantes.filter(function(a){return !filtro||a.status===filtro}).map(function(a){return [a.email,a.status,a.assinado_em||'',a.cancelado_em||'',a.mp_preapproval_id||'']}));
+  var url=URL.createObjectURL(new Blob(['﻿'+linhas.map(function(l){return l.map(c).join(';')}).join('\n')],{type:'text/csv;charset=utf-8'}));
+  var a=document.createElement('a');a.href=url;a.download='assinantes-diario-'+(filtro||'todos')+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000)};
+function DIARIO_msg(el,t,k){el.textContent=t;el.className='msg'+(k?' '+k:'')}
+try{var s=sessionStorage.getItem('cci-adm');if(s){senha=s;carregar().then(function(){$('login').hidden=true;$('app').hidden=false}).catch(function(){senha=''})}}catch(_){}
+})();
+</script></body></html>
