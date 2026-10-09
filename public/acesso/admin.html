@@ -1,0 +1,95 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin · Vendas dos estudos</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#060A10">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/diario/diario.css">
+<style>
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:0 0 24px}
+.kpi{background:var(--card2);padding:20px}.kpi b{display:block;font:800 28px/1 var(--d);margin-bottom:8px}.kpi span{font:700 11px/1 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}.kpi.gold b{color:var(--gold)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font:600 14px/1 var(--b);color:var(--ink2);background:transparent;border:1px solid var(--line);border-radius:999px;padding:9px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#10161D}
+select{font:500 15px var(--b);color:var(--ink);background:#08121C;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font:700 11px/1 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.mono{font-family:var(--m);font-size:13px;color:var(--ink2);white-space:nowrap}
+.st{font:700 11px/1 var(--m);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.st.ativo{background:rgba(79,191,139,.14);color:var(--ok)}.st.expirado,.st.revogado{background:rgba(240,138,122,.12);color:var(--err)}.st.pendente{background:rgba(140,154,171,.14);color:var(--ink2)}
+.mini{font:600 13px var(--b);color:var(--ink2);background:transparent;border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer;white-space:nowrap;margin-left:6px}.mini:hover{border-color:var(--gold);color:var(--ink)}.mini.danger:hover{border-color:var(--err);color:var(--err)}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card2)}
+.empty{padding:40px;text-align:center;color:var(--mut)}
+.login{max-width:420px;margin:40px auto 80px}
+#csv{width:auto;margin:0;padding:11px 16px;font-size:15px}
+.manual{display:grid;grid-template-columns:1.4fr 1fr .6fr auto;gap:10px;align-items:end;background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:18px;margin:0 0 24px}
+.manual h3{grid-column:1/-1;margin:0;font:800 17px var(--d)}.manual .btn{margin:0;width:auto;padding:14px 18px;font-size:15px}
+.manual input,.manual select{width:100%;padding:12px}
+@media (max-width:860px){.kpis{grid-template-columns:1fr 1fr}.manual{grid-template-columns:1fr}.tbl .hide{display:none}}
+</style></head><body><div class="w">
+<nav><a class="brand" href="/estudos"><span class="seal"><img src="/diario/selo.png" alt=""></span><span><b>SC Cota Capital Intelligence</b><small>Admin · Vendas dos estudos</small></span></a><div class="links"><a href="/diario/admin">Admin do Diário</a></div></nav>
+
+<section class="login" id="login"><p class="eyebrow">Área restrita</p><h1 style="font-size:38px">Vendas dos estudos</h1>
+<div class="panel"><form id="lf" novalidate><label class="fld" for="pw">Senha de administrador</label><input id="pw" type="password" autocomplete="current-password" required>
+<button class="btn" id="lb" type="submit">Entrar</button></form><p class="msg" id="lm" role="status" aria-live="polite"></p></div></section>
+
+<main id="app" hidden>
+<div class="kpis"><div class="kpi gold"><b id="k-mes">—</b><span>Faturamento no mês</span></div><div class="kpi"><b id="k-at">—</b><span>Acessos ativos</span></div><div class="kpi"><b id="k-tot">—</b><span>Faturamento total</span></div><div class="kpi"><b id="k-pe">—</b><span>Aguardando pagamento</span></div></div>
+
+<form class="manual" id="mf" novalidate><h3>Liberar acesso manual (venda por Pix)</h3>
+<div><label class="fld" for="me">E-mail do cliente</label><input id="me" type="email" placeholder="cliente@email.com.br" required></div>
+<div><label class="fld" for="ms">Estudo</label><select id="ms"></select></div>
+<div><label class="fld" for="mv">Valor (R$)</label><input id="mv" type="text" inputmode="decimal" value="199,90"></div>
+<button class="btn" id="mb" type="submit">Liberar 30 dias</button></form>
+
+<div class="bar"><div class="chips" role="group" aria-label="Filtrar"><button class="chip" data-f="ativo" aria-pressed="true">Ativos</button><button class="chip" data-f="expirado" aria-pressed="false">Expirados</button><button class="chip" data-f="pendente" aria-pressed="false">Pendentes</button><button class="chip" data-f="" aria-pressed="false">Todos</button>
+<select id="fe" aria-label="Filtrar por estudo"><option value="">Todos os estudos</option></select></div>
+<button class="btn ghost" id="csv" type="button">Exportar CSV</button></div>
+<div class="wrap"><table class="tbl"><thead><tr><th>E-mail</th><th>Estudo</th><th>Situação</th><th>Código</th><th class="hide">Origem</th><th class="hide">Recebido</th><th></th></tr></thead><tbody id="tb"></tbody></table></div>
+<p class="msg" id="am" role="status" aria-live="polite"></p>
+</main></div>
+<script>
+(function(){
+var senha='',d=null,filtro='ativo',festudo='',$=function(i){return document.getElementById(i)};
+var brl=function(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})};
+var dt=function(s){return s?new Date(s).toLocaleDateString('pt-BR'):'—'};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+function msg(el,t,k){el.textContent=t;el.className='msg'+(k?' '+k:'')}
+function sit(c){if(c.status==='pendente')return 'pendente';if(c.status==='revogado')return 'revogado';return c.expira_em&&new Date(c.expira_em)>new Date()?'ativo':'expirado'}
+function api(b){return fetch('/api/admin-estudos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({senha:senha},b))}).then(function(r){return r.json().then(function(j){j._s=r.status;return j})})}
+function lista(){return d.compras.filter(function(c){return (!filtro||sit(c)===filtro)&&(!festudo||c.estudo===festudo)})}
+function render(){
+ $('k-mes').textContent=brl(d.faturamento_mes);$('k-at').textContent=d.ativos;$('k-tot').textContent=brl(d.faturamento_total);
+ $('k-pe').textContent=d.compras.filter(function(c){return c.status==='pendente'}).length;
+ var rows=lista();
+ $('tb').innerHTML=rows.length?rows.map(function(c){var s=sit(c);
+  var info=s==='ativo'?'até '+dt(c.expira_em):s==='expirado'?'expirou '+dt(c.expira_em):s==='pendente'?'desde '+dt(c.criado_em):'';
+  var acoes=(c.status==='pago'?'<button class="mini" data-a="renovar" data-id="'+c.id+'">Renovar +30 dias</button><button class="mini danger" data-a="revogar" data-id="'+c.id+'">Revogar</button>':'');
+  return '<tr><td>'+esc(c.email)+'</td><td>'+esc(d.estudos[c.estudo]||c.estudo)+'</td><td><span class="st '+s+'">'+s+'</span> <span class="mono">'+info+'</span></td><td class="mono">'+esc(c.status==='pago'?c.codigo||'—':'—')+'</td><td class="hide">'+esc(c.origem)+'</td><td class="mono hide">'+(c.status==='pago'?brl(c.valor+c.renovado):'—')+'</td><td style="text-align:right;white-space:nowrap">'+acoes+'</td></tr>'}).join(''):'<tr><td colspan="7" class="empty">Nenhuma venda neste filtro ainda.</td></tr>';
+}
+function aplicar(j){if(j._s!==200)throw j;d=j;
+ if(!$('ms').options.length){Object.keys(d.estudos).forEach(function(k){$('ms').add(new Option(d.estudos[k],k));$('fe').add(new Option(d.estudos[k],k))})}
+ render()}
+function carregar(){return api({acao:'lista'}).then(aplicar)}
+$('lf').addEventListener('submit',function(e){e.preventDefault();senha=$('pw').value;$('lb').disabled=true;msg($('lm'),'Entrando…');
+ carregar().then(function(){$('login').hidden=true;$('app').hidden=false;try{sessionStorage.setItem('cci-adm',senha)}catch(_){}})
+ .catch(function(j){msg($('lm'),(j&&j.erro)||'Não foi possível entrar.','err')}).then(function(){$('lb').disabled=false})});
+document.querySelectorAll('.chip').forEach(function(b){b.onclick=function(){filtro=b.dataset.f;document.querySelectorAll('.chip').forEach(function(o){o.setAttribute('aria-pressed',o===b)});render()}});
+$('fe').onchange=function(){festudo=this.value;render()};
+$('tb').addEventListener('click',function(e){var b=e.target.closest('button[data-a]');if(!b)return;
+ var rot=b.dataset.a==='renovar'?'Confirmar Pix de R$ 59,90?':'Confirmar revogação?';
+ if(b.dataset.c!=='1'){b.dataset.c='1';b.dataset.t=b.textContent;b.textContent=rot;setTimeout(function(){if(b.isConnected&&b.dataset.c==='1'){b.dataset.c='';b.textContent=b.dataset.t}},5000);return}
+ b.disabled=true;api({acao:b.dataset.a,id:b.dataset.id}).then(function(j){aplicar(j);msg($('am'),b.dataset.a==='renovar'?'Acesso renovado por mais 30 dias.':'Acesso revogado.','ok')})
+ .catch(function(j){msg($('am'),(j&&j.erro)||'Não foi possível concluir.','err');b.disabled=false})});
+$('mf').addEventListener('submit',function(e){e.preventDefault();var em=$('me').value.trim().toLowerCase(),v=parseFloat(String($('mv').value).replace(/\./g,'').replace(',','.'));
+ if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){msg($('am'),'Informe o e-mail do cliente.','err');$('me').focus();return}
+ $('mb').disabled=true;api({acao:'manual',email:em,estudo:$('ms').value,valor:v||199.9}).then(function(j){aplicar(j);$('me').value='';
+  var c=j.compras.find(function(x){return x.email===em});msg($('am'),'Acesso liberado para '+em+'. Código: '+(c&&c.codigo||'—')+' · link: '+location.origin+'/acesso/'+$('ms').value,'ok')})
+ .catch(function(j){msg($('am'),(j&&j.erro)||'Não foi possível liberar.','err')}).then(function(){$('mb').disabled=false})});
+$('csv').onclick=function(){if(!d)return;var c=function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'};
+ var L=[['email','estudo','situacao','codigo','origem','valor','renovacoes','pago_em','expira_em']].concat(lista().map(function(x){return [x.email,d.estudos[x.estudo],sit(x),x.codigo||'',x.origem,String(x.valor).replace('.',','),String(x.renovado).replace('.',','),x.pago_em||'',x.expira_em||'']}));
+ var url=URL.createObjectURL(new Blob(['﻿'+L.map(function(l){return l.map(c).join(';')}).join('\n')],{type:'text/csv;charset=utf-8'}));
+ var a=document.createElement('a');a.href=url;a.download='vendas-estudos-'+(filtro||'todos')+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000)};
+try{var s=sessionStorage.getItem('cci-adm');if(s){senha=s;carregar().then(function(){$('login').hidden=true;$('app').hidden=false}).catch(function(){senha=''})}}catch(_){}
+})();
+</script></body></html>

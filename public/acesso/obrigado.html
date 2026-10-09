@@ -1,0 +1,35 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compra confirmada · SC Cota Capital Intelligence</title><meta name="description" content="Acesso ao estudo da SC Cota Capital Intelligence."><meta name="robots" content="noindex">
+<meta name="theme-color" content="#060A10">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/diario/diario.css"></head><body><div class="w">
+<nav><a class="brand" href="/estudos"><span class="seal"><img src="/diario/selo.png" alt=""></span><span><b>SC Cota Capital Intelligence</b><small>Estudos de mercado imobiliário</small></span></a>
+<div class="links"><a href="/news">News</a><a href="/estudos">Estudos</a></div></nav>
+<main class="center" id="box"><p class="eyebrow">Confirmando pagamento</p><h1 style="margin:0 auto 18px;max-width:18ch">Um instante…</h1><p class="lede">Estamos conferindo seu pagamento com o Mercado Pago.</p></main>
+<template id="ok"><div class="badge"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4FBF8B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+<p class="eyebrow">Compra confirmada</p><h1 style="margin:0 auto 14px;max-width:20ch">Seu acesso está liberado</h1>
+<p class="lede">Estudo <b data-k="titulo"></b>, válido até <b data-k="expira"></b>.</p>
+<div class="panel" style="text-align:center"><p class="plan" style="margin-bottom:10px">Seu código de acesso</p>
+<p data-k="codigo" style="font:700 40px/1 var(--m);letter-spacing:.14em;color:var(--gold);margin:0 0 12px"></p>
+<p style="color:var(--ink2);margin:0 0 18px;line-height:1.5">Guarde este código. Para entrar de outro aparelho, use o e-mail <b data-k="email"></b> e este código.</p>
+<a class="btn" data-k="link" href="#">Abrir o estudo agora</a></div></template>
+<footer><div class="fgrid">
+<div class="sample"><h3>Receba uma edição de amostra grátis</h3><p>Veja como o Diário chega antes de assinar. Uma edição, sem compromisso.</p>
+<form id="amostra" class="inl" novalidate><label class="fld" for="amostra-email" style="position:absolute;left:-9999px">E-mail para a amostra</label><input id="amostra-email" type="email" autocomplete="email" placeholder="seu@email.com.br" required><button class="btn" type="submit">Quero a amostra</button></form><p class="msg" role="status" aria-live="polite"></p></div>
+<div class="flinks"><a href="/diario">Assinar</a><a href="/news">News do mercado</a><a href="/diario/cancelar">Cancelar assinatura</a></div></div>
+<div class="legal"><span>Cota Capital Conect · Diário Imobiliário Litoral Catarinense · SC Cota Capital Intelligence</span><span>Pagamento processado pelo Mercado Pago. Cancele quando quiser.</span></div>
+</footer></div><script src="/diario/diario.js"></script><script>
+(function(){var q=new URLSearchParams(location.search),id=q.get('payment_id')||q.get('collection_id'),box=document.getElementById('box'),n=0;
+function msg(t,l,erro){box.innerHTML='<p class="eyebrow">'+(erro?'Pagamento não concluído':'Pagamento em processamento')+'</p><h1 style="margin:0 auto 18px;max-width:20ch">'+t+'</h1><p class="lede">'+l+'</p>'}
+if(!id){msg('Não encontramos o pagamento','Se você já pagou, entre em contato pelo WhatsApp (51) 99298-7668 com o e-mail da compra.',true);return}
+function check(){fetch('/api/compra-confirmar?payment_id='+encodeURIComponent(id)).then(function(r){return r.json()}).then(function(j){
+ if(j.status==='pago'){box.innerHTML=document.getElementById('ok').innerHTML;
+  box.querySelector('[data-k=titulo]').textContent=j.titulo;box.querySelector('[data-k=email]').textContent=j.email;box.querySelector('[data-k=codigo]').textContent=j.codigo;
+  box.querySelector('[data-k=expira]').textContent=new Date(j.expira_em).toLocaleDateString('pt-BR');box.querySelector('[data-k=link]').href='/acesso/'+j.estudo;return}
+ if(j.status==='recusado'){msg('O pagamento não foi aprovado','Você pode tentar novamente com outra forma de pagamento.',true);return}
+ n++;if(n<60){msg('Aguardando a confirmação do pagamento','Se você pagou com Pix, a confirmação costuma levar alguns segundos. Esta página atualiza sozinha.');setTimeout(check,5000)}
+ else msg('Ainda não recebemos a confirmação','Assim que o Mercado Pago aprovar, volte a esta página. Dúvidas: WhatsApp (51) 99298-7668.')
+}).catch(function(){n++;if(n<60)setTimeout(check,5000)})}
+check()})();
+</script></body></html>

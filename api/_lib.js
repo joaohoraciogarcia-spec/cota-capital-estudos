@@ -66,4 +66,36 @@ function falha(res, err) {
   json(res, err.status || 500, { erro: err.status === 503 ? err.message : 'Não foi possível concluir agora. Tente novamente em instantes.' });
 }
 
-module.exports = { SITE, PRECO, PRODUTO, env, rpc, mp, sincronizar, emailValido, iguais, json, falha, crypto };
+// ---------- Estudos (compra avulsa) ----------
+const ESTUDOS = {
+  'litoral-sc': 'Itajaí a Porto Belo',
+  'gramado-canela': 'Gramado e Canela',
+  'camboriu': 'Camboriú',
+  'picarras-penha-barra-velha': 'Penha a Barra Velha',
+};
+const PRECO_ESTUDO = 199.9, PRECO_RENOVACAO = 59.9, DIAS_ACESSO = 30;
+const PIX = { chave: '51 99298-7668', whatsapp: '5551992987668' };
+
+function chaveDerivada(info) {
+  return Buffer.from(crypto.hkdfSync('sha256', env('CCI_SUB_KEY'), 'cci-estudos-v1', info, 32));
+}
+// Sessão do comprador: cookie assinado só com o e-mail; o acesso é conferido no banco a cada abertura.
+function assinarSessao(email) {
+  const p = Buffer.from(JSON.stringify({ e: email, t: Date.now() })).toString('base64url');
+  return p + '.' + crypto.createHmac('sha256', chaveDerivada('sessao')).update(p).digest('base64url');
+}
+function lerSessao(req) {
+  const m = String(req.headers.cookie || '').match(/(?:^|;\s*)cci_acc=([^;]+)/);
+  if (!m) return null;
+  const [p, sig] = m[1].split('.');
+  if (!p || !sig) return null;
+  const calc = crypto.createHmac('sha256', chaveDerivada('sessao')).update(p).digest('base64url');
+  if (!iguais(calc, sig)) return null;
+  try { return JSON.parse(Buffer.from(p, 'base64url').toString()).e; } catch (_) { return null; }
+}
+function cookieSessao(valor, maxAge) {
+  return `cci_acc=${valor}; Path=/; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Lax`;
+}
+
+module.exports = { SITE, PRECO, PRODUTO, env, rpc, mp, sincronizar, emailValido, iguais, json, falha, crypto,
+  ESTUDOS, PRECO_ESTUDO, PRECO_RENOVACAO, DIAS_ACESSO, PIX, chaveDerivada, assinarSessao, lerSessao, cookieSessao };

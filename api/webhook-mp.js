@@ -21,6 +21,14 @@ module.exports = async (req, res) => {
   const q = req.query || {}, b = req.body || {};
   const tipo = String(b.type || q.type || b.topic || q.topic || '');
   const id = String((b.data && b.data.id) || q['data.id'] || q.id || '');
+  // Pagamento avulso de estudo: relido na API do MP e conferido (valor, moeda, referência) antes de liberar.
+  if (id && tipo === 'payment') {
+    try {
+      const { aplicarPagamento } = require('./compra-confirmar');
+      const r = await aplicarPagamento(id);
+      return json(res, 200, { ok: true, status: r.status });
+    } catch (err) { console.error(err); return json(res, 500, { erro: 'falha ao processar' }); }
+  }
   if (!id || !/preapproval/.test(tipo)) return json(res, 200, { ignorado: true });
   if (!assinaturaOk(req, id)) return json(res, 401, { erro: 'assinatura inválida' });
   try {
