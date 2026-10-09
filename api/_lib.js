@@ -111,5 +111,26 @@ function cookieSessao(valor, maxAge) {
   return `cci_acc=${valor}; Path=/; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Lax`;
 }
 
-module.exports = { SITE, PRECO, PRODUTO, env, rpc, mp, sincronizar, emailValido, iguais, json, falha, crypto,
+// Aviso por e-mail (Resend). Sem RESEND_API_KEY configurada, não envia e não quebra nada.
+async function avisar(assunto, linhas) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return false;
+  const para = process.env.AVISO_EMAIL || 'cotacapitalinvestimentos@gmail.com';
+  const de = process.env.RESEND_FROM || 'Cota Capital Intelligence <onboarding@resend.dev>';
+  const esc = v => String(v == null ? '' : v).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const html = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#111">' +
+    linhas.map(([k, v]) => `<p style="margin:0 0 8px"><b>${esc(k)}:</b> ${esc(v)}</p>`).join('') +
+    '<p style="margin:16px 0 0;color:#666;font-size:13px">Aviso automático do site estudos.cotacapitalinvestimentos.com.br</p></div>';
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST', headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: de, to: [para], subject: assunto, html,
+        text: linhas.map(([k, v]) => `${k}: ${v}`).join('\n') }),
+    });
+    if (!r.ok) console.error('Resend', r.status, (await r.text()).slice(0, 200));
+    return r.ok;
+  } catch (e) { console.error('Resend', e); return false; }
+}
+
+module.exports = { avisar, SITE, PRECO, PRODUTO, env, rpc, mp, sincronizar, emailValido, iguais, json, falha, crypto,
   ESTUDOS, PRECO_ESTUDO, PRECO_RENOVACAO, DIAS_ACESSO, PIX, chaveDerivada, assinarSessao, lerSessao, cookieSessao, assinarLead, lerLead };
