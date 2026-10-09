@@ -93,9 +93,23 @@ function lerSessao(req) {
   if (!iguais(calc, sig)) return null;
   try { return JSON.parse(Buffer.from(p, 'base64url').toString()).e; } catch (_) { return null; }
 }
+// Cookie de quem pediu a amostra grátis (assinado, guarda só o e-mail).
+function assinarLead(email) {
+  const p = Buffer.from(JSON.stringify({ e: email, t: Date.now() })).toString('base64url');
+  return p + '.' + crypto.createHmac('sha256', chaveDerivada('lead')).update(p).digest('base64url');
+}
+function lerLead(req) {
+  const m = String(req.headers.cookie || '').match(/(?:^|;\s*)cci_lead=([^;]+)/);
+  if (!m) return null;
+  const [p, sig] = m[1].split('.');
+  if (!p || !sig) return null;
+  const calc = crypto.createHmac('sha256', chaveDerivada('lead')).update(p).digest('base64url');
+  if (!iguais(calc, sig)) return null;
+  try { return JSON.parse(Buffer.from(p, 'base64url').toString()).e; } catch (_) { return null; }
+}
 function cookieSessao(valor, maxAge) {
   return `cci_acc=${valor}; Path=/; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Lax`;
 }
 
 module.exports = { SITE, PRECO, PRODUTO, env, rpc, mp, sincronizar, emailValido, iguais, json, falha, crypto,
-  ESTUDOS, PRECO_ESTUDO, PRECO_RENOVACAO, DIAS_ACESSO, PIX, chaveDerivada, assinarSessao, lerSessao, cookieSessao };
+  ESTUDOS, PRECO_ESTUDO, PRECO_RENOVACAO, DIAS_ACESSO, PIX, chaveDerivada, assinarSessao, lerSessao, cookieSessao, assinarLead, lerLead };

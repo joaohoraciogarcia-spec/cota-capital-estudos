@@ -27,7 +27,7 @@ h2{font:800 clamp(24px,3.4vw,34px)/1.1 var(--d);letter-spacing:-.01em;margin:0 0
 .inc li{display:flex;gap:10px;align-items:flex-start;color:var(--ink2);font-size:15px;line-height:1.45}
 .inc li:before{content:"";flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%;background:rgba(227,185,92,.14) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23E3B95C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
 label.fld{display:block;font:600 14px var(--b);color:var(--ink2);margin:0 0 8px}
-input[type=email],input[type=password]{width:100%;font:400 16px var(--b);color:var(--ink);background:#08121C;border:1px solid var(--line);border-radius:12px;padding:14px 15px;outline:none;transition:border-color .15s}
+input[type=email],input[type=password],input[type=text],input[type=tel]{width:100%;font:400 16px var(--b);color:var(--ink);background:#08121C;border:1px solid var(--line);border-radius:12px;padding:14px 15px;outline:none;transition:border-color .15s}
 input:focus{border-color:var(--gold)}
 input:focus-visible,.btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;font:700 17px/1 var(--b);color:#10161D;background:linear-gradient(180deg,var(--gold2),var(--gold));border:0;border-radius:12px;padding:17px 20px;cursor:pointer;text-decoration:none;transition:filter .15s,transform .05s}
