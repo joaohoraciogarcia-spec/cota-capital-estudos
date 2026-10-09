@@ -21,6 +21,10 @@
 .wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card2)}
 .empty{padding:40px;text-align:center;color:var(--mut)}
 .login{max-width:420px;margin:40px auto 80px}
+.conv{display:grid;grid-template-columns:1.3fr 1fr auto;gap:10px;align-items:end;background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:18px;margin:0 0 24px}
+.conv h3{grid-column:1/-1;margin:0;font:800 17px var(--d)}.conv .btn{margin:0;width:auto;padding:14px 20px;font-size:15px}.conv input{padding:12px}
+.tag{font:700 10px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(227,185,92,.4);border-radius:5px;padding:3px 6px;margin-left:8px;white-space:nowrap}
+@media (max-width:760px){.conv{grid-template-columns:1fr}}
 #csv{width:auto;margin:0;padding:12px 18px;font-size:15px}
 @media (max-width:760px){.kpis{grid-template-columns:1fr 1fr}.tbl .hide{display:none}}
 </style></head><body><div class="w">
@@ -31,8 +35,12 @@
 <button class="btn" id="lb" type="submit">Entrar</button></form><p class="msg" id="lm" role="status" aria-live="polite"></p></div></section>
 
 <main id="app" hidden>
-<div class="kpis"><div class="kpi gold"><b id="k-mrr">—</b><span>MRR</span></div><div class="kpi"><b id="k-at">—</b><span>Ativos</span></div><div class="kpi"><b id="k-ca">—</b><span>Cancelados</span></div><div class="kpi"><b id="k-pe">—</b><span>Pendentes</span></div></div>
-<div class="bar"><div class="chips" role="group" aria-label="Filtrar por status"><button class="chip" data-f="ativo" aria-pressed="true">Ativos</button><button class="chip" data-f="cancelado" aria-pressed="false">Cancelados</button><button class="chip" data-f="pendente" aria-pressed="false">Pendentes</button><button class="chip" data-f="" aria-pressed="false">Todos</button></div>
+<div class="kpis"><div class="kpi gold"><b id="k-mrr">—</b><span>MRR</span></div><div class="kpi"><b id="k-at">—</b><span>Pagantes ativos</span></div><div class="kpi"><b id="k-cv">—</b><span>Convidados</span></div><div class="kpi"><b id="k-ca">—</b><span>Cancelados</span></div></div>
+<form class="conv" id="cf" novalidate><h3>Adicionar convidado (sem cobrança)</h3>
+<div><label class="fld" for="ce">E-mail</label><input id="ce" type="email" placeholder="convidado@email.com.br" required></div>
+<div><label class="fld" for="cn">Nome <span style="color:var(--mut);font-weight:400">(opcional)</span></label><input id="cn" type="text"></div>
+<button class="btn" id="cb" type="submit">Adicionar</button></form>
+<div class="bar"><div class="chips" role="group" aria-label="Filtrar por status"><button class="chip" data-f="ativo" aria-pressed="true">Ativos</button><button class="chip" data-f="cancelado" aria-pressed="false">Cancelados</button><button class="chip" data-f="convidado" aria-pressed="false">Convidados</button><button class="chip" data-f="pendente" aria-pressed="false">Pendentes</button><button class="chip" data-f="" aria-pressed="false">Todos</button></div>
 <button class="btn ghost" id="csv" type="button">Exportar CSV</button></div>
 <div class="wrap"><table class="tbl"><thead><tr><th>E-mail</th><th>Status</th><th>Assinou em</th><th class="hide">Cancelou em</th><th></th></tr></thead><tbody id="tb"></tbody></table></div>
 <p class="msg" id="am" role="status" aria-live="polite"></p>
@@ -46,21 +54,25 @@ var dt=function(s){return s?new Date(s).toLocaleDateString('pt-BR',{day:'2-digit
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
 function api(body){return fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({senha:senha},body))}).then(function(r){return r.json().then(function(j){j._s=r.status;return j})})}
 function render(){
-  $('k-mrr').textContent=brl(dados.mrr);$('k-at').textContent=dados.ativos;$('k-ca').textContent=dados.cancelados;$('k-pe').textContent=dados.pendentes;
-  var rows=dados.assinantes.filter(function(a){return !filtro||a.status===filtro});
-  $('tb').innerHTML=rows.length?rows.map(function(a){return '<tr><td>'+esc(a.email)+'</td><td><span class="st '+a.status+'">'+a.status+'</span></td><td class="num">'+dt(a.assinado_em)+'</td><td class="num hide">'+dt(a.cancelado_em)+'</td><td style="text-align:right">'+(a.status==='ativo'?'<button class="mini" data-id="'+a.id+'" data-e="'+esc(a.email)+'">Cancelar</button>':'')+'</td></tr>'}).join(''):'<tr><td colspan="5" class="empty">Nenhum assinante neste filtro ainda.</td></tr>';
+  $('k-mrr').textContent=brl(dados.mrr);$('k-at').textContent=dados.ativos;$('k-cv').textContent=dados.convidados||0;$('k-ca').textContent=dados.cancelados;
+  var rows=dados.assinantes.filter(function(a){return !filtro||(filtro==='convidado'?(a.origem==='cortesia'&&a.status==='ativo'):a.status===filtro)});
+  $('tb').innerHTML=rows.length?rows.map(function(a){return '<tr><td>'+esc(a.email)+(a.nome?' <span style="color:var(--mut)">· '+esc(a.nome)+'</span>':'')+(a.origem==='cortesia'?'<span class="tag">convidado</span>':'')+'</td><td><span class="st '+a.status+'">'+a.status+'</span></td><td class="num">'+dt(a.assinado_em)+'</td><td class="num hide">'+dt(a.cancelado_em)+'</td><td style="text-align:right">'+(a.status==='ativo'?'<button class="mini" data-id="'+a.id+'" data-e="'+esc(a.email)+'">Cancelar</button>':'')+'</td></tr>'}).join(''):'<tr><td colspan="5" class="empty">Nenhum assinante neste filtro ainda.</td></tr>';
 }
 function carregar(){return api({acao:'lista'}).then(function(j){if(j._s!==200)throw j;dados=j;render()})}
 $('lf').addEventListener('submit',function(e){e.preventDefault();senha=$('pw').value;$('lb').disabled=true;DIARIO_msg($('lm'),'Entrando…');
   carregar().then(function(){$('login').hidden=true;$('app').hidden=false;try{sessionStorage.setItem('cci-adm',senha)}catch(_){}})
   .catch(function(j){DIARIO_msg($('lm'),(j&&j.erro)||'Não foi possível entrar.','err')}).then(function(){$('lb').disabled=false})});
+$('cf').addEventListener('submit',function(e){e.preventDefault();var em=$('ce').value.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){DIARIO_msg($('am'),'Informe o e-mail do convidado.','err');$('ce').focus();return}
+  $('cb').disabled=true;api({acao:'convidar',email:em,nome:$('cn').value.trim()}).then(function(j){if(j._s!==200)throw j;dados=j;render();$('cf').reset();DIARIO_msg($('am'),em+' adicionado como convidado. Recebe o Diário a partir do próximo disparo das 9h.','ok')})
+  .catch(function(j){DIARIO_msg($('am'),(j&&j.erro)||'Não foi possível adicionar.','err')}).then(function(){$('cb').disabled=false})});
 document.querySelectorAll('.chip').forEach(function(b){b.onclick=function(){filtro=b.dataset.f;document.querySelectorAll('.chip').forEach(function(o){o.setAttribute('aria-pressed',o===b)});render()}});
 $('tb').addEventListener('click',function(e){var b=e.target.closest('button[data-id]');if(!b)return;
   if(b.dataset.c!=='1'){b.dataset.c='1';b.textContent='Confirmar?';setTimeout(function(){if(b.isConnected){b.dataset.c='';b.textContent='Cancelar'}},4000);return}
-  b.disabled=true;b.textContent='Cancelando…';api({acao:'cancelar',id:b.dataset.id}).then(function(j){if(j._s!==200)throw j;dados=j;render();DIARIO_msg($('am'),'Assinatura de '+b.dataset.e+' cancelada no Mercado Pago.','ok')})
+  b.disabled=true;b.textContent='Cancelando…';api({acao:'cancelar',id:b.dataset.id}).then(function(j){if(j._s!==200)throw j;dados=j;render();DIARIO_msg($('am'),'Assinatura de '+b.dataset.e+' encerrada.','ok')})
   .catch(function(j){DIARIO_msg($('am'),(j&&j.erro)||'Não foi possível cancelar.','err');b.disabled=false;b.textContent='Cancelar'})});
 $('csv').onclick=function(){if(!dados)return;var c=function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'};
-  var linhas=[['email','status','assinado_em','cancelado_em','mp_preapproval_id']].concat(dados.assinantes.filter(function(a){return !filtro||a.status===filtro}).map(function(a){return [a.email,a.status,a.assinado_em||'',a.cancelado_em||'',a.mp_preapproval_id||'']}));
+  var linhas=[['email','nome','tipo','status','assinado_em','cancelado_em','mp_preapproval_id']].concat(dados.assinantes.filter(function(a){return !filtro||(filtro==='convidado'?(a.origem==='cortesia'&&a.status==='ativo'):a.status===filtro)}).map(function(a){return [a.email,a.nome||'',a.origem==='cortesia'?'convidado':'pagante',a.status,a.assinado_em||'',a.cancelado_em||'',a.mp_preapproval_id||'']}));
   var url=URL.createObjectURL(new Blob(['﻿'+linhas.map(function(l){return l.map(c).join(';')}).join('\n')],{type:'text/csv;charset=utf-8'}));
   var a=document.createElement('a');a.href=url;a.download='assinantes-diario-'+(filtro||'todos')+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000)};
 function DIARIO_msg(el,t,k){el.textContent=t;el.className='msg'+(k?' '+k:'')}
