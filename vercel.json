@@ -4,13 +4,6 @@
  "outputDirectory": "public",
  "cleanUrls": true,
  "trailingSlash": false,
- "redirects": [
-  {
-   "source": "/",
-   "destination": "/estudos",
-   "permanent": false
-  }
- ],
  "headers": [
   {
    "source": "/acesso/(.*)",

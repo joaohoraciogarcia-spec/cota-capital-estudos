@@ -1,0 +1,121 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cota Capital Intelligence · Mercado imobiliário do sul do Brasil</title>
+<meta name="description" content="Estudos de oferta, notícias diárias e o Diário Imobiliário para quem incorpora, vende, investe ou financia imóveis no litoral catarinense e na Serra Gaúcha.">
+<meta name="theme-color" content="#060A10"><link rel="icon" href="/assets/selo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+/* Home: editorial escuro; hero com mapa abstrato das regiões, três produtos, regiões, últimas notícias e público */
+:root{--bg:#060A10;--card:#0E1B2A;--card2:#0A1520;--line:#1F3247;--ink:#EEF1F5;--ink2:#B4C0CE;--mut:#8C9AAB;--gold:#E3B95C;--gold2:#F2D28E;--d:"Archivo",Arial,sans-serif;--b:"Hanken Grotesk",Arial,sans-serif;--m:"Space Mono",monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(80% 50% at 70% 0%,#11263C 0%,var(--bg) 70%) no-repeat,var(--bg);color:var(--ink);font-family:var(--b);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}.w{max-width:1120px;margin:0 auto;padding:28px 16px 0}
+.eb{font:700 12px/1 var(--m);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 16px}
+h1{font:800 clamp(38px,6.4vw,74px)/1 var(--d);letter-spacing:-.025em;margin:0 0 22px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--gold)}
+h2{font:800 clamp(26px,3.6vw,40px)/1.08 var(--d);letter-spacing:-.015em;margin:0 0 12px;text-wrap:balance}
+.lede{color:var(--ink2);font-size:clamp(17px,2vw,20px);line-height:1.6;max-width:58ch;margin:0}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:24px 0 72px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:700 16px/1 var(--b);text-decoration:none;border-radius:12px;padding:16px 22px;transition:filter .15s,border-color .15s}
+.btn.p{color:#10161D;background:linear-gradient(180deg,var(--gold2),var(--gold))}.btn.p:hover{filter:brightness(1.06)}
+.btn.s{color:var(--ink);border:1px solid var(--line)}.btn.s:hover{border-color:var(--gold)}
+.btn:focus-visible,.card:focus-visible,.reg:focus-visible,.nw a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.map{position:relative;aspect-ratio:1/1.05;border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,var(--card),var(--card2));overflow:hidden}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map .lbl{position:absolute;font:700 11px/1.2 var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);white-space:nowrap}
+.map .lbl b{color:var(--gold)}
+.sec{padding:72px 0;border-top:1px solid var(--line)}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px;margin-bottom:30px}.head p{color:var(--ink2);line-height:1.6;margin:0;max-width:56ch;font-size:17px}
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{display:flex;flex-direction:column;gap:12px;text-decoration:none;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:20px;padding:26px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.card .k{font:700 11px/1 var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.card h3{font:800 25px/1.12 var(--d);margin:0}.card p{margin:0;color:var(--ink2);line-height:1.55;font-size:15px}
+.card .pr{font:800 22px/1 var(--d);color:var(--gold);margin-top:4px}.card .pr small{font:600 14px var(--b);color:var(--ink2)}
+.card .go{margin-top:auto;padding-top:8px;font:700 15px/1 var(--d);color:var(--gold)}
+.regs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.reg{display:flex;flex-direction:column;gap:10px;background:var(--card2);padding:24px;text-decoration:none;transition:background .15s}
+.reg:hover{background:#0E1B2A}
+.reg .st{font:700 11px/1 var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.reg h3{font:800 21px/1.15 var(--d);margin:0}.reg p{margin:0;color:var(--ink2);font-size:14px;line-height:1.5}
+.reg .go{margin-top:auto;padding-top:6px;font:600 14px var(--b);color:var(--ink)}
+.news{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.nw{border:1px solid var(--line);border-radius:16px;background:var(--card2);padding:20px}
+.nw .mt{font:700 11px/1 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-bottom:10px}.nw .mt span{color:var(--gold)}
+.nw a{text-decoration:none}.nw h3{font:800 18px/1.3 var(--d);margin:0 0 8px}.nw a:hover h3{color:var(--gold2)}
+.nw p{margin:0;color:var(--ink2);font-size:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.skel{height:132px;border-radius:16px;background:linear-gradient(90deg,var(--card2),#0f1d2c,var(--card2));background-size:200% 100%;animation:sh 1.4s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.aud{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.aud div{border-top:2px solid var(--gold);padding-top:16px}.aud b{display:block;font:800 18px/1.25 var(--d);margin-bottom:8px}.aud p{margin:0;color:var(--ink2);line-height:1.55;font-size:15px}
+.band{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;background:linear-gradient(120deg,#13263A,#0A1520 60%);border:1px solid var(--line);border-radius:24px;padding:36px}
+.band p{color:var(--ink2);line-height:1.6;margin:0;font-size:17px}.band .ctas{margin:0;justify-content:flex-end}
+@media (max-width:960px){.hero{grid-template-columns:1fr}.map{max-width:520px;width:100%;aspect-ratio:1.2/1}.prods{grid-template-columns:1fr}.regs{grid-template-columns:1fr 1fr}.aud{grid-template-columns:1fr 1fr}.band{grid-template-columns:1fr}.band .ctas{justify-content:flex-start}}
+@media (max-width:560px){.regs,.aud,.news{grid-template-columns:1fr}.band{padding:26px}.sec{padding:56px 0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style></head><body><div class="w">
+<header class="cci-nav"><a class="cci-brand" href="/"><span class="cci-seal"><img src="/assets/selo.png" alt=""></span><span><b>Cota Capital Intelligence</b><small>Mercado imobiliário do sul do Brasil</small></span></a><div class="cci-links" role="navigation" aria-label="Principal"><a href="/" aria-current="page">Início</a><a href="/estudos">Estudos</a><a href="/news">News</a><a href="/diario" class="cci-cta">Diário</a></div></header>
+<main>
+<section class="hero">
+<div><p class="eb">Cota Capital Intelligence</p>
+<h1>Inteligência de mercado imobiliário do <em>sul do Brasil</em></h1>
+<p class="lede">Estudos de oferta, notícias diárias e um diário por e-mail para quem incorpora, vende, investe ou financia imóveis do litoral catarinense à Serra Gaúcha.</p>
+<div class="ctas"><a class="btn p" href="/estudos">Ver os estudos</a><a class="btn s" href="/diario">Assinar o Diário · R$ 9,90/mês</a></div></div>
+<div class="map" aria-hidden="true">
+<svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMid meet">
+<defs><pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#1F3247" stroke-width=".6"/></pattern>
+<linearGradient id="sea" x1="0" x2="1"><stop offset="0" stop-color="#0E1B2A" stop-opacity="0"/><stop offset="1" stop-color="#11263C"/></linearGradient></defs>
+<rect width="400" height="420" fill="url(#g)"/><rect x="250" width="150" height="420" fill="url(#sea)"/>
+<path d="M262 18 C 250 70, 268 110, 252 150 S 236 220, 246 262 S 214 330, 196 372 S 170 410, 158 420" fill="none" stroke="#E3B95C" stroke-opacity=".55" stroke-width="2" stroke-dasharray="2 6"/>
+<g fill="#E3B95C"><circle cx="258" cy="70" r="7"/><circle cx="252" cy="150" r="9"/><circle cx="244" cy="196" r="6"/><circle cx="104" cy="356" r="9"/></g>
+<g fill="none" stroke="#E3B95C" stroke-opacity=".35"><circle cx="258" cy="70" r="16"/><circle cx="252" cy="150" r="20"/><circle cx="244" cy="196" r="14"/><circle cx="104" cy="356" r="20"/></g>
+</svg>
+<span class="lbl" style="left:8%;top:14.5%"><b>Penha a Barra Velha</b><br>litoral norte</span>
+<span class="lbl" style="left:8%;top:33.5%"><b>Itajaí a Porto Belo</b><br>BC, Brava, Itapema</span>
+<span class="lbl" style="left:8%;top:46%"><b>Camboriú</b></span>
+<span class="lbl" style="left:36%;top:84%"><b>Gramado e Canela</b><br>Serra Gaúcha</span>
+</div></section>
+
+<section class="sec"><div class="head"><div><p class="eb">O que fazemos</p><h2>Três formas de acompanhar o mercado</h2></div><p>Do estudo aprofundado de cada região às notícias do dia, com a mesma curadoria.</p></div>
+<div class="prods">
+<a class="card" href="/estudos"><span class="k">Estudos de mercado</span><h3>Oferta, preço e lacunas de cada região</h3><p>Preço por m², tipologias, estoque, concorrência e onde a oferta deixa espaço para novos produtos. Leitura "Interpretar cenário" em cada gráfico.</p><span class="pr">R$ 199,90 <small>· 30 dias de acesso</small></span><span class="go">Ver os estudos e a amostra grátis →</span></a>
+<a class="card" href="/news"><span class="k">News do mercado</span><h3>As notícias do dia, selecionadas</h3><p>Lançamentos, incorporadoras, infraestrutura, regulação e crédito do litoral de SC e da Serra Gaúcha, com link para a fonte original.</p><span class="pr">Grátis <small>· atualizada todos os dias</small></span><span class="go">Ler as notícias →</span></a>
+<a class="card" href="/diario"><span class="k">Diário Imobiliário</span><h3>O mercado no seu e-mail às 9h</h3><p>Uma edição por dia com o que move o litoral norte catarinense: lançamentos, dados de mercado, regulação e crédito.</p><span class="pr">R$ 9,90 <small>/mês · cancele quando quiser</small></span><span class="go">Assinar o Diário →</span></a>
+</div></section>
+
+<section class="sec"><div class="head"><div><p class="eb">Regiões cobertas</p><h2>Quatro estudos, atualizados todo mês</h2></div><p>Baseados na oferta ativa da plataforma DWV. Cada estudo tem uma amostra grátis com a Introdução e o Panorama.</p></div>
+<div class="regs">
+<a class="reg" href="/acesso/litoral-sc"><span class="st">Santa Catarina</span><h3>Itajaí a Porto Belo</h3><p>Itajaí, Praia Brava, Balneário Camboriú, Itapema e Porto Belo comparados lado a lado.</p><span class="go">Amostra grátis →</span></a>
+<a class="reg" href="/acesso/picarras-penha-barra-velha"><span class="st">Santa Catarina</span><h3>Penha a Barra Velha</h3><p>Balneário Piçarras, Penha e Barra Velha, com lançamentos e usados.</p><span class="go">Amostra grátis →</span></a>
+<a class="reg" href="/acesso/camboriu"><span class="st">Santa Catarina</span><h3>Camboriú</h3><p>Lançamentos e revenda na vizinha de Balneário Camboriú, zona por zona.</p><span class="go">Amostra grátis →</span></a>
+<a class="reg" href="/acesso/gramado-canela"><span class="st">Rio Grande do Sul</span><h3>Gramado e Canela</h3><p>As duas cidades da Serra Gaúcha, com lançamentos, revenda, casas e terrenos.</p><span class="go">Amostra grátis →</span></a>
+</div></section>
+
+<section class="sec"><div class="head"><div><p class="eb">Últimas notícias</p><h2>O que está movendo o mercado hoje</h2></div><a class="btn s" href="/news">Ver todas as notícias</a></div>
+<div class="news" id="nw" aria-live="polite"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div></section>
+
+<section class="sec"><div class="head"><div><p class="eb">Para quem</p><h2>Decisões melhores com os mesmos dados</h2></div></div>
+<div class="aud">
+<div><b>Incorporadoras</b><p>Metragem, tipologia e preço de um novo projeto com base em quantos concorrentes existem em cada faixa.</p></div>
+<div><b>Imobiliárias e corretores</b><p>Argumentos de preço por m², mapa de estoque e comparação entre cidades para cada cliente.</p></div>
+<div><b>Investidores</b><p>Onde a compra na planta ainda tem espaço para valorizar e onde o lançamento já chega com preço de pronto.</p></div>
+<div><b>Donos de terreno e fundos</b><p>Quais construtoras atuam em cada mercado e qual produto faz sentido para cada área.</p></div>
+</div></section>
+
+<section class="sec" style="border-top:0;padding-top:8px"><div class="band"><div><p class="eb">Diário Imobiliário Litoral Catarinense</p><h2 style="margin-bottom:10px">Comece o dia sabendo o que mudou no mercado</h2><p>Toda manhã, às 9h, no seu e-mail. R$ 9,90 por mês, cancele quando quiser.</p></div>
+<div class="ctas"><a class="btn p" href="/diario">Assinar o Diário</a><a class="btn s" href="/diario#amostra-email">Receber uma amostra</a></div></div></section>
+</main>
+<footer class="cci-foot"><div class="cci-fr"><div class="cci-fb"><b>Cota Capital Intelligence</b><span>Inteligência de mercado imobiliário do sul do Brasil.</span></div><div class="cci-fl" role="navigation" aria-label="Rodapé"><a href="/">Início</a><a href="/estudos">Estudos</a><a href="/news">News</a><a href="/diario">Diário Imobiliário</a><a href="/diario/cancelar">Cancelar assinatura</a><a href="https://cotacapitalinvestimentos.com.br">Cota Capital Investimentos</a></div></div>Inteligência: Cota Capital Investimentos · Emissão: Tis Marketing Intelligence · CNPJ 10.853.561/0001-97<br>Dados de oferta: plataforma DWV; os dados pertencem aos seus titulares. Não é recomendação de investimento.</footer>
+</div>
+<script>
+(function(){var SB='https://rgavgdkgtyolttnervgv.supabase.co',K='sb_publishable_Jd2XsVl_f8fZgZ4z7A7Nzg_3ItqCgg9',box=document.getElementById('nw');
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var dt=function(d){var p=String(d).split('-');return p.length===3?p[2]+'/'+p[1]:d};
+fetch(SB+'/rest/v1/cci_news?select=data,titulo,resumo,fonte,url,regiao,categoria&order=data.desc,created_at.desc&limit=4',{headers:{apikey:K,Authorization:'Bearer '+K}})
+.then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(l){if(!l.length)throw 0;
+ box.innerHTML=l.map(function(n){var u=/^https?:\/\//.test(n.url||'')?n.url:'/news';return '<article class="nw"><div class="mt">'+esc(dt(n.data))+' · <span>'+esc(n.regiao||'')+'</span> · '+esc(n.categoria||'')+'</div><a href="'+esc(u)+'" target="_blank" rel="noopener"><h3>'+esc(n.titulo)+'</h3></a><p>'+esc(n.resumo||'')+'</p></article>'}).join('')})
+.catch(function(){box.innerHTML='<p style="color:var(--ink2);margin:0">As notícias do dia estão na <a href="/news" style="color:var(--gold)">página de News</a>.</p>'});
+})();
+</script></body></html>

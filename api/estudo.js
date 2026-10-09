@@ -30,12 +30,11 @@ function pagina(slug, { email, expirou }) {
 <title>Estudo ${esc(titulo)} · SC Cota Capital Intelligence</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#060A10">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="/diario/diario.css">
+<link rel="stylesheet" href="/diario/diario.css"><link rel="stylesheet" href="/assets/site.css">
 <style>.duo{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}.alt{background:var(--card2);border:1px solid var(--line);border-radius:22px;padding:28px}.alt h2{font-size:24px}.alt p{color:var(--ink2);line-height:1.55;margin:0 0 18px}.sp{height:12px}.help{margin-top:16px;font-size:14px;color:var(--mut)}.help a{color:var(--ink2)}@media(max-width:860px){.duo,#amostra{grid-template-columns:1fr!important}#fa{grid-template-columns:1fr!important}}</style>
 </head><body><div class="w">
-<nav><a class="brand" href="/estudos"><span class="seal"><img src="/diario/selo.png" alt=""></span><span><b>SC Cota Capital Intelligence</b><small>Estudos de mercado imobiliário</small></span></a>
-<div class="links"><a href="/estudos">Estudos</a><a href="/news">News</a><a href="/diario">Diário</a></div></nav>
-<main style="padding-bottom:64px"><p class="eyebrow">Estudo de mercado · Lançamentos</p>
+<header class="cci-nav"><a class="cci-brand" href="/"><span class="cci-seal"><img src="/assets/selo.png" alt=""></span><span><b>Cota Capital Intelligence</b><small>Mercado imobiliário do sul do Brasil</small></span></a><div class="cci-links" role="navigation" aria-label="Principal"><a href="/">Início</a><a href="/estudos" aria-current="page">Estudos</a><a href="/news">News</a><a href="/diario" class="cci-cta">Diário</a></div></header>
+<main style="padding-bottom:64px"><p class="eyebrow">Cota Capital Intelligence · Estudo de mercado</p>
 <h1 style="max-width:22ch">${esc(titulo)}</h1>
 <p class="lede" style="margin-bottom:36px">Preços, estoque, tipologias, incorporadoras e as leituras de cada gráfico, atualizado todo mês pela SC Cota Capital Intelligence.</p>
 ${renovar}
@@ -62,7 +61,7 @@ ${expirou ? '' : `<section class="alt" id="amostra" style="margin-top:20px;displ
 <div style="grid-column:1/-1"><button class="btn ghost" id="ab" type="submit" style="margin-top:4px">Ver a amostra grátis</button><p class="msg" id="am" role="status" aria-live="polite"></p></div>
 </form></section>`}
 </main>
-<div class="legal" style="margin-bottom:32px"><span>SC Cota Capital Intelligence · Cota Capital</span><span>Pagamento processado pelo Mercado Pago.</span></div>
+<footer class="cci-foot"><div class="cci-fr"><div class="cci-fb"><b>Cota Capital Intelligence</b><span>Inteligência de mercado imobiliário do sul do Brasil.</span></div><div class="cci-fl" role="navigation" aria-label="Rodapé"><a href="/">Início</a><a href="/estudos">Estudos</a><a href="/news">News</a><a href="/diario">Diário Imobiliário</a><a href="/diario/cancelar">Cancelar assinatura</a><a href="https://cotacapitalinvestimentos.com.br">Cota Capital Investimentos</a></div></div>Inteligência: Cota Capital Investimentos · Emissão: Tis Marketing Intelligence · CNPJ 10.853.561/0001-97<br>Dados de oferta: plataforma DWV; os dados pertencem aos seus titulares. Não é recomendação de investimento.</footer>
 </div><script src="/diario/diario.js"></script><script>
 (function(){var $=function(i){return document.getElementById(i)};
 $('fc').addEventListener('submit',function(e){e.preventDefault();var v=$('ce').value.trim().toLowerCase();

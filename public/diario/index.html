@@ -3,9 +3,8 @@
 <meta name="theme-color" content="#060A10">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="/diario/diario.css"></head><body><div class="w">
-<nav><a class="brand" href="/diario"><span class="seal"><img src="/diario/selo.png" alt=""></span><span><b>Cota Capital Conect</b><small>Diário Imobiliário Litoral Catarinense</small></span></a>
-<div class="links"><a href="/news">News</a><a href="/estudos">Estudos</a></div></nav>
+<link rel="stylesheet" href="/diario/diario.css"><link rel="stylesheet" href="/assets/site.css"></head><body><div class="w">
+<header class="cci-nav"><a class="cci-brand" href="/"><span class="cci-seal"><img src="/assets/selo.png" alt=""></span><span><b>Cota Capital Intelligence</b><small>Mercado imobiliário do sul do Brasil</small></span></a><div class="cci-links" role="navigation" aria-label="Principal"><a href="/">Início</a><a href="/estudos">Estudos</a><a href="/news">News</a><a href="/diario" class="cci-cta" aria-current="page">Diário</a></div></header>
 <main>
 <section class="hero">
 <div><p class="eyebrow">Cota Capital Conect · Newsletter diária</p>
@@ -42,12 +41,10 @@
 <details><summary>Quais formas de pagamento são aceitas?</summary><p>A assinatura recorrente é feita pelo Mercado Pago, com cartão de crédito. A cobrança de R$ 9,90 se repete a cada mês até você cancelar.</p></details>
 <details><summary>Que horas o Diário chega?</summary><p>Todos os dias às 9h, no e-mail informado na assinatura.</p></details>
 <details><summary>Posso ver uma edição antes?</summary><p>Sim. Peça uma edição de amostra grátis no rodapé desta página.</p></details>
-</section></main><footer><div class="fgrid">
+</section></main><footer style="padding:56px 0 0"><div class="fgrid" style="grid-template-columns:1fr">
 <div class="sample"><h3>Receba uma edição de amostra grátis</h3><p>Veja como o Diário chega antes de assinar. Uma edição, sem compromisso.</p>
 <form id="amostra" class="inl" novalidate><label class="fld" for="amostra-email" style="position:absolute;left:-9999px">E-mail para a amostra</label><input id="amostra-email" type="email" autocomplete="email" placeholder="seu@email.com.br" required><button class="btn" type="submit">Quero a amostra</button></form><p class="msg" role="status" aria-live="polite"></p></div>
-<div class="flinks"><a href="/diario">Assinar</a><a href="/news">News do mercado</a><a href="/diario/cancelar">Cancelar assinatura</a></div></div>
-<div class="legal"><span>Cota Capital Conect · Diário Imobiliário Litoral Catarinense · SC Cota Capital Intelligence</span><span>Pagamento processado pelo Mercado Pago. Cancele quando quiser.</span></div>
-</footer></div><script src="/diario/diario.js"></script><script>
+</div></footer><footer class="cci-foot"><div class="cci-fr"><div class="cci-fb"><b>Cota Capital Intelligence</b><span>Inteligência de mercado imobiliário do sul do Brasil.</span></div><div class="cci-fl" role="navigation" aria-label="Rodapé"><a href="/">Início</a><a href="/estudos">Estudos</a><a href="/news">News</a><a href="/diario">Diário Imobiliário</a><a href="/diario/cancelar">Cancelar assinatura</a><a href="https://cotacapitalinvestimentos.com.br">Cota Capital Investimentos</a></div></div>Inteligência: Cota Capital Investimentos · Emissão: Tis Marketing Intelligence · CNPJ 10.853.561/0001-97<br>Dados de oferta: plataforma DWV; os dados pertencem aos seus titulares. Não é recomendação de investimento.</footer></div><script src="/diario/diario.js"></script><script>
 (function(){var f=document.getElementById('f'),i=document.getElementById('email'),b=document.getElementById('go'),m=document.getElementById('m');
 f.addEventListener('submit',function(e){e.preventDefault();var v=i.value.trim().toLowerCase();
 if(!DIARIO.emailOk(v)){DIARIO.msg(m,'Informe um e-mail válido para receber o Diário.','err');i.focus();return}

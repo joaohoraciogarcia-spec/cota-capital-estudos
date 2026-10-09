@@ -1,0 +1,22 @@
+/* Cota Capital Intelligence · menu e rodapé compartilhados por todas as páginas (classes cci-* isoladas) */
+.cci-nav{--g:#E3B95C;--i:#EEF1F5;--i2:#B4C0CE;--l:#1F3247;display:flex;align-items:center;justify-content:space-between;gap:14px 24px;flex-wrap:wrap;margin:0 0 40px;font-family:"Hanken Grotesk",Arial,sans-serif}
+.cci-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--i)}
+.cci-seal{width:46px;height:46px;border-radius:12px;background:#fff;display:grid;place-items:center;flex:none;box-shadow:0 0 0 1px rgba(227,185,92,.45)}
+.cci-seal img{width:38px;height:38px;object-fit:contain}
+.cci-brand b{display:block;font:700 12px/1.3 "Space Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--g)}
+.cci-brand small{display:block;font:500 13px/1.35 "Hanken Grotesk",Arial,sans-serif;color:#8C9AAB}
+.cci-links{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.cci-links a{font:600 15px/1 "Hanken Grotesk",Arial,sans-serif;color:var(--i2);text-decoration:none;padding:10px 12px;border-radius:999px;transition:color .15s,background .15s}
+.cci-links a:hover{color:var(--i);background:rgba(255,255,255,.05)}
+.cci-links a[aria-current="page"]{color:var(--i);background:rgba(227,185,92,.12)}
+.cci-links a.cci-cta{color:#10161D;background:var(--g);margin-left:6px}
+.cci-links a.cci-cta:hover{filter:brightness(1.06);background:var(--g);color:#10161D}
+.cci-links a:focus-visible,.cci-brand:focus-visible,.cci-foot a:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+.cci-foot{--g:#E3B95C;margin-top:56px;padding:32px 0 36px;border-top:1px solid #1F3247;color:#8C9AAB;font:400 13px/1.7 "Hanken Grotesk",Arial,sans-serif}
+.cci-foot .cci-fr{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px 32px;margin-bottom:18px}
+.cci-foot .cci-fb b{display:block;font:700 12px/1.3 "Space Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:4px}
+.cci-foot .cci-fb span{color:#B4C0CE;font-size:14px}
+.cci-foot .cci-fl{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px}
+.cci-foot .cci-fl a{color:#B4C0CE;text-decoration:none}.cci-foot .cci-fl a:hover{color:#EEF1F5;text-decoration:underline}
+@media (max-width:640px){.cci-nav{margin-bottom:28px}.cci-links{width:100%;justify-content:space-between;gap:2px}.cci-links a{padding:9px 10px;font-size:14px}.cci-links a.cci-cta{margin-left:0}}
+@media (prefers-reduced-motion:reduce){.cci-links a{transition:none}}

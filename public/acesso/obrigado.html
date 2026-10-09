@@ -1,11 +1,10 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Compra confirmada · SC Cota Capital Intelligence</title><meta name="description" content="Acesso ao estudo da SC Cota Capital Intelligence."><meta name="robots" content="noindex">
+<title>Compra confirmada · Cota Capital Intelligence</title><meta name="description" content="Acesso ao estudo da Cota Capital Intelligence."><meta name="robots" content="noindex">
 <meta name="theme-color" content="#060A10">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="/diario/diario.css"></head><body><div class="w">
-<nav><a class="brand" href="/estudos"><span class="seal"><img src="/diario/selo.png" alt=""></span><span><b>SC Cota Capital Intelligence</b><small>Estudos de mercado imobiliário</small></span></a>
-<div class="links"><a href="/news">News</a><a href="/estudos">Estudos</a></div></nav>
+<link rel="stylesheet" href="/diario/diario.css"><link rel="stylesheet" href="/assets/site.css"></head><body><div class="w">
+<header class="cci-nav"><a class="cci-brand" href="/"><span class="cci-seal"><img src="/assets/selo.png" alt=""></span><span><b>Cota Capital Intelligence</b><small>Mercado imobiliário do sul do Brasil</small></span></a><div class="cci-links" role="navigation" aria-label="Principal"><a href="/">Início</a><a href="/estudos" aria-current="page">Estudos</a><a href="/news">News</a><a href="/diario" class="cci-cta">Diário</a></div></header>
 <main class="center" id="box"><p class="eyebrow">Confirmando pagamento</p><h1 style="margin:0 auto 18px;max-width:18ch">Um instante…</h1><p class="lede">Estamos conferindo seu pagamento com o Mercado Pago.</p></main>
 <template id="ok"><div class="badge"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4FBF8B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
 <p class="eyebrow">Compra confirmada</p><h1 style="margin:0 auto 14px;max-width:20ch">Seu acesso está liberado</h1>
@@ -14,12 +13,10 @@
 <p data-k="codigo" style="font:700 40px/1 var(--m);letter-spacing:.14em;color:var(--gold);margin:0 0 12px"></p>
 <p style="color:var(--ink2);margin:0 0 18px;line-height:1.5">Guarde este código. Para entrar de outro aparelho, use o e-mail <b data-k="email"></b> e este código.</p>
 <a class="btn" data-k="link" href="#">Abrir o estudo agora</a></div></template>
-<footer><div class="fgrid">
+<footer style="padding:56px 0 0"><div class="fgrid" style="grid-template-columns:1fr">
 <div class="sample"><h3>Receba uma edição de amostra grátis</h3><p>Veja como o Diário chega antes de assinar. Uma edição, sem compromisso.</p>
 <form id="amostra" class="inl" novalidate><label class="fld" for="amostra-email" style="position:absolute;left:-9999px">E-mail para a amostra</label><input id="amostra-email" type="email" autocomplete="email" placeholder="seu@email.com.br" required><button class="btn" type="submit">Quero a amostra</button></form><p class="msg" role="status" aria-live="polite"></p></div>
-<div class="flinks"><a href="/diario">Assinar</a><a href="/news">News do mercado</a><a href="/diario/cancelar">Cancelar assinatura</a></div></div>
-<div class="legal"><span>Cota Capital Conect · Diário Imobiliário Litoral Catarinense · SC Cota Capital Intelligence</span><span>Pagamento processado pelo Mercado Pago. Cancele quando quiser.</span></div>
-</footer></div><script src="/diario/diario.js"></script><script>
+</div></footer><footer class="cci-foot"><div class="cci-fr"><div class="cci-fb"><b>Cota Capital Intelligence</b><span>Inteligência de mercado imobiliário do sul do Brasil.</span></div><div class="cci-fl" role="navigation" aria-label="Rodapé"><a href="/">Início</a><a href="/estudos">Estudos</a><a href="/news">News</a><a href="/diario">Diário Imobiliário</a><a href="/diario/cancelar">Cancelar assinatura</a><a href="https://cotacapitalinvestimentos.com.br">Cota Capital Investimentos</a></div></div>Inteligência: Cota Capital Investimentos · Emissão: Tis Marketing Intelligence · CNPJ 10.853.561/0001-97<br>Dados de oferta: plataforma DWV; os dados pertencem aos seus titulares. Não é recomendação de investimento.</footer></div><script src="/diario/diario.js"></script><script>
 (function(){var q=new URLSearchParams(location.search),id=q.get('payment_id')||q.get('collection_id'),box=document.getElementById('box'),n=0;
 function msg(t,l,erro){box.innerHTML='<p class="eyebrow">'+(erro?'Pagamento não concluído':'Pagamento em processamento')+'</p><h1 style="margin:0 auto 18px;max-width:20ch">'+t+'</h1><p class="lede">'+l+'</p>'}
 if(!id){msg('Não encontramos o pagamento','Se você já pagou, entre em contato pelo WhatsApp (51) 99298-7668 com o e-mail da compra.',true);return}
