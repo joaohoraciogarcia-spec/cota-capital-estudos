@@ -14,7 +14,7 @@
     if(!DIARIO.emailOk(e)){DIARIO.msg(m,'Informe um e-mail válido.','err');inp.focus();return}
     b.disabled=true;DIARIO.msg(m,'Enviando…');
     fetch('/api/amostra-diario',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e})})
-      .then(function(r){if(!r.ok)throw 0;DIARIO.msg(m,'Pronto! Recebemos o seu pedido e a edição de amostra será enviada para '+e+'.','ok');inp.value=''})
+      .then(function(r){if(!r.ok)throw 0;DIARIO.msg(m,'Pronto! Recebemos o seu pedido. Nossa equipe entrará em contato e enviará uma edição de amostra.','ok');inp.value=''})
       .catch(function(){DIARIO.msg(m,'Não foi possível enviar agora. Tente de novo.','err')})
       .then(function(){b.disabled=false});
   })}
