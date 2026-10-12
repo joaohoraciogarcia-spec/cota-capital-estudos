@@ -8,11 +8,25 @@
 .hub a:hover{border-color:var(--gold)}.hub a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .hub b{font:800 24px/1.15 var(--d)}.hub p{margin:0;color:var(--ink2);line-height:1.55;font-size:15px}.hub ul{margin:4px 0 0;padding-left:18px;color:var(--ink2);font-size:14px;line-height:1.7}
 .hub span{margin-top:auto;padding-top:8px;font:700 15px var(--d);color:var(--gold)}
-@media(max-width:760px){.hub{grid-template-columns:1fr}}</style></head><body><div class="w">
+@media(max-width:760px){.hub{grid-template-columns:1fr}#cubf{grid-template-columns:1fr!important}}</style></head><body><div class="w">
 <header class="cci-nav"><a class="cci-brand" href="/"><span class="cci-seal"><img src="/assets/selo.png" alt=""></span><span><b>Cota Capital Intelligence</b><small>Área administrativa</small></span></a></header>
 <p class="eyebrow">Área restrita</p><h1 style="font-size:clamp(32px,5vw,48px)">Painel administrativo</h1>
 <p class="lede">Use a mesma senha de administrador nos dois painéis.</p>
 <div class="hub">
 <a href="/diario/admin"><b>Diário Imobiliário</b><p>Assinantes do Diário (R$ 9,90/mês).</p><ul><li>MRR, pagantes e convidados</li><li>Adicionar convidado sem cobrança</li><li>Cancelar assinaturas e exportar CSV</li></ul><span>Abrir painel do Diário →</span></a>
 <a href="/acesso/admin"><b>Estudos</b><p>Vendas e acessos aos estudos (R$ 199,90 por 30 dias).</p><ul><li>Faturamento e acessos ativos</li><li>Liberar acesso: venda por Pix ou convidado</li><li>Renovar +30 dias, revogar e ver códigos</li></ul><span>Abrir painel dos estudos →</span></a>
-</div></div></body></html>
+</div><section style="margin:-36px 0 64px"><form id="cubf" novalidate style="display:grid;grid-template-columns:1.2fr .9fr .7fr .7fr 1fr auto;gap:10px;align-items:end;background:var(--card2);border:1px solid var(--line);border-radius:18px;padding:20px">
+<h3 style="grid-column:1/-1;margin:0;font:800 19px var(--d)">Atualizar CUB/SC do mês (Painel do Incorporador)</h3>
+<p style="grid-column:1/-1;margin:-4px 0 4px;color:var(--ink2);font-size:14px">O Sinduscon publica o CUB no início de cada mês. Os demais índices (INCC, Selic, IPCA, IGP-M) se atualizam sozinhos pelo Banco Central.</p>
+<div><label class="fld" for="cc">Indicador</label><select id="cc" style="width:100%;font:500 15px var(--b);color:var(--ink);background:#08121C;border:1px solid var(--line);border-radius:10px;padding:12px"><option value="cub_sc_res">CUB/SC residencial médio</option><option value="cub_sc_com">CUB/SC comercial médio</option></select></div>
+<div><label class="fld" for="cv">Valor (R$/m²)</label><input id="cv" type="text" inputmode="decimal" placeholder="3.171,96"></div>
+<div><label class="fld" for="cm2">Var. no mês (%)</label><input id="cm2" type="text" inputmode="decimal" placeholder="0,41"></div>
+<div><label class="fld" for="cr">Referência</label><input id="cr" type="text" placeholder="set/2026"></div>
+<div><label class="fld" for="cs">Senha de admin</label><input id="cs" type="password" autocomplete="current-password"></div>
+<button class="btn" id="cbt" type="submit" style="margin:0;width:auto;padding:14px 18px;font-size:15px">Salvar</button>
+<p class="msg" id="cmsg" role="status" aria-live="polite" style="grid-column:1/-1;margin:0"></p></form></section></div>
+<script>(function(){var $=function(i){return document.getElementById(i)};try{var k=sessionStorage.getItem('cci-adm');if(k)$('cs').value=k}catch(_){}
+$('cubf').addEventListener('submit',function(e){e.preventDefault();var m=$('cmsg');m.className='msg';m.textContent='Salvando…';$('cbt').disabled=true;
+fetch('/api/admin-indicadores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({senha:$('cs').value,codigo:$('cc').value,valor:$('cv').value,variacao_mes:$('cm2').value,referencia:$('cr').value.trim()})})
+.then(function(r){return r.json()}).then(function(j){if(j.ok){m.className='msg ok';m.textContent='CUB atualizado. O Painel mostra o valor novo em até 6 horas.';try{sessionStorage.setItem('cci-adm',$('cs').value)}catch(_){}}else{m.className='msg err';m.textContent=j.erro||'Não foi possível salvar.'}})
+.catch(function(){m.className='msg err';m.textContent='Sem conexão.'}).then(function(){$('cbt').disabled=false})})})();</script></body></html>

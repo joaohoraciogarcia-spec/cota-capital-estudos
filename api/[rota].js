@@ -3,6 +3,7 @@
 const ROTAS = {
   'admin': require('../lib/h/admin'),
   'admin-estudos': require('../lib/h/admin-estudos'),
+  'admin-indicadores': require('../lib/h/admin-indicadores'),
   'amostra': require('../lib/h/amostra'),
   'amostra-diario': require('../lib/h/amostra-diario'),
   'assinantes': require('../lib/h/assinantes'),
@@ -11,6 +12,8 @@ const ROTAS = {
   'comprar': require('../lib/h/comprar'),
   'compra-confirmar': require('../lib/h/compra-confirmar'),
   'confirmar': require('../lib/h/confirmar'),
+  'indicadores': require('../lib/h/indicadores'),
+  'lead': require('../lib/h/lead'),
   'login': require('../lib/h/login'),
   'webhook-mp': require('../lib/h/webhook-mp'),
 };
