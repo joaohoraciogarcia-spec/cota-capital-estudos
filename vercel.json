@@ -70,7 +70,7 @@
  ],
  "rewrites": [
   {
-   "source": "/acesso/:slug(litoral-sc|gramado-canela|camboriu|picarras-penha-barra-velha)",
+   "source": "/acesso/:slug(litoral-sc|gramado-canela|camboriu|picarras-penha-barra-velha|amostra-sc-serra)",
    "destination": "/api/estudo?slug=:slug"
   }
  ],

@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
-const { ESTUDOS, PRECO_ESTUDO, PRECO_RENOVACAO, DIAS_ACESSO, PIX, rpc, lerSessao, lerLead, chaveDerivada, crypto } = require('../lib/_lib');
+const { ESTUDOS, AMOSTRA_GERAL, vendavel, lerConvite, assinarSessao, cookieSessao, PRECO_ESTUDO, PRECO_RENOVACAO, DIAS_ACESSO, PIX, rpc, lerSessao, lerLead, chaveDerivada, crypto } = require('../lib/_lib');
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
@@ -87,6 +87,78 @@ $('fl').addEventListener('submit',function(e){e.preventDefault();var v=$('le').v
 })();</script></body></html>`;
 }
 
+const HEAD = (titulo) => `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(titulo)} · SC Cota Capital Intelligence</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#060A10">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/diario/diario.css"><link rel="stylesheet" href="/assets/site.css">`;
+const NAV = `<header class="cci-nav"><a class="cci-brand" href="/"><span class="cci-seal"><img src="/assets/selo.png" alt=""></span><span><b>Cota Capital Intelligence</b><small>Mercado imobiliário do sul do Brasil</small></span></a><div class="cci-links" role="navigation" aria-label="Principal"><a href="/">Início</a><a href="/estudos" aria-current="page">Estudos</a><a href="/painel">Painel SC</a><a href="/news">News</a><a href="/diario" class="cci-cta">Diário</a></div></header>`;
+
+// Regiões do estudo amostra: Introdução + Panorama de cada estudo (as mesmas amostras do site), lado a lado em abas.
+const REGIOES = [
+  { slug: 'litoral-sc', nome: 'Itajaí a Porto Belo', cid: 'Itajaí · Balneário Camboriú · Itapema · Porto Belo', uf: 'SC' },
+  { slug: 'camboriu', nome: 'Camboriú', cid: 'Camboriú', uf: 'SC' },
+  { slug: 'picarras-penha-barra-velha', nome: 'Penha a Barra Velha', cid: 'Penha · Piçarras · Barra Velha', uf: 'SC' },
+  { slug: 'gramado-canela', nome: 'Gramado e Canela', cid: 'Gramado · Canela', uf: 'Serra Gaúcha · RS' },
+];
+
+function paginaAmostra(expira) {
+  const regs = REGIOES.map(r => {
+    let h = abrirEstudo(r.slug, 'amostras');
+    const tit = ((h.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1] || '').replace(/<[^>]+>/g, '').trim();
+    h = /<head[^>]*>/i.test(h) ? h.replace(/<head([^>]*)>/i, '<head$1><base target="_top">') : '<base target="_top">' + h;
+    return Object.assign({ tit, src: h.replace(/&/g, '&amp;').replace(/"/g, '&quot;') }, r);
+  });
+  const wa = `https://wa.me/${PIX.whatsapp}?text=` + encodeURIComponent('Olá! Vi o estudo amostra da Cota Capital Intelligence e quero conhecer os estudos completos.');
+  return HEAD('Estudo amostra · Litoral SC e Serra') + `
+<style>
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:8px 0 16px}
+.tab{display:grid;gap:6px;text-align:left;font:inherit;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer}
+.tab:hover{border-color:var(--gold)}.tab[aria-selected="true"]{border-color:var(--gold);box-shadow:inset 0 -3px 0 var(--gold)}
+.tab small{font:700 10px/1.2 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.tab b{font:800 18px/1.15 var(--d)}.tab span{font-size:13px;color:var(--mut)}
+.tab:focus-visible,.cards a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.frame{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.frame iframe{display:block;width:100%;border:0;min-height:900px}
+.hl{font:600 17px/1.45 var(--b);color:var(--ink2);margin:0 0 14px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+.cards a{display:grid;gap:4px;text-decoration:none;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.cards a:hover{border-color:var(--gold)}.cards b{font:800 16px var(--d)}.cards span{font-size:13px;color:var(--gold);font-weight:700}
+.cta{margin-top:40px;background:var(--card2);border:1px solid var(--line);border-radius:22px;padding:28px}
+.cta h2{font-size:26px;margin:0 0 8px}.cta p{color:var(--ink2);margin:0;max-width:66ch;line-height:1.55}
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.acts .btn{width:auto;margin:0;padding:13px 20px}
+@media (max-width:900px){.tabs,.cards{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.cards{grid-template-columns:1fr}.tab{padding:12px}.tab span{display:none}.tab b{font-size:16px}}
+</style></head><body><div class="w">${NAV}
+<main style="padding-bottom:64px"><p class="eyebrow">Estudo amostra · convite Cota Capital Intelligence</p>
+<h1 style="max-width:24ch">Litoral de Santa Catarina e Serra Gaúcha</h1>
+<p class="lede" style="margin-bottom:28px">Uma amostra dos estudos mensais da Cota Capital Intelligence: a Introdução e o Panorama de quatro mercados, com preço por m², estoque, tipologias e as principais leituras de cada região. Escolha a região abaixo.</p>
+<div class="tabs" role="tablist" aria-label="Regiões">${regs.map((r, i) => `<button class="tab" role="tab" id="t-${r.slug}" aria-controls="p-${r.slug}" aria-selected="${i === 0}" data-i="${i}"><small>${esc(r.uf)}</small><b>${esc(r.nome)}</b><span>${esc(r.cid)}</span></button>`).join('')}</div>
+${regs.map((r, i) => `<section role="tabpanel" id="p-${r.slug}" aria-labelledby="t-${r.slug}"${i ? ' hidden' : ''}><div class="frame"><iframe title="Amostra do estudo ${esc(r.nome)}" loading="${i ? 'lazy' : 'eager'}" srcdoc="${r.src}"></iframe></div></section>`).join('\n')}
+<section class="cta"><p class="eyebrow" style="margin-bottom:10px">Estudos completos</p><h2>Gostou do que viu?</h2>
+<p>Cada estudo completo segue com mais capítulos: ranking de preço por m², incorporadoras ativas, tipologias, velocidade de venda e a leitura "Interpretar cenário" em cada gráfico. Atualizados todo mês.</p>
+<div class="cards">${REGIOES.map(r => `<a href="/acesso/${r.slug}"><b>${esc(r.nome)}</b><span>${brl(PRECO_ESTUDO)} · ${DIAS_ACESSO} dias</span></a>`).join('')}</div>
+<div class="acts"><a class="btn" href="${wa}" target="_blank" rel="noopener">Falar com a Cota Capital no WhatsApp</a><a class="btn ghost" href="/painel">Ver o Painel do Incorporador SC</a></div></section>
+</main></div>
+<script>(function(){var tabs=[].slice.call(document.querySelectorAll('.tab')),pan=[].slice.call(document.querySelectorAll('[role=tabpanel]'));
+function fit(f){try{var d=f.contentDocument;if(d&&d.documentElement){f.style.height=Math.max(d.documentElement.scrollHeight,d.body?d.body.scrollHeight:0)+'px'}}catch(e){}}
+pan.forEach(function(p){var f=p.querySelector('iframe');f.addEventListener('load',function(){fit(f);setTimeout(function(){fit(f)},600)})});
+function show(i,foco){tabs.forEach(function(t,j){t.setAttribute('aria-selected',j===i);t.tabIndex=j===i?0:-1;pan[j].hidden=j!==i});var f=pan[i].querySelector('iframe');fit(f);setTimeout(function(){fit(f)},300);if(foco)tabs[i].focus()}
+tabs.forEach(function(t,i){t.onclick=function(){show(i);t.scrollIntoView({block:'nearest'})};t.onkeydown=function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();show((i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length,true)}}});
+show(0);window.addEventListener('resize',function(){pan.forEach(function(p){if(!p.hidden)fit(p.querySelector('iframe'))})});})();</script>
+${barra(expira)}</body></html>`;
+}
+
+function paginaConvite() {
+  const wa = `https://wa.me/${PIX.whatsapp}?text=` + encodeURIComponent('Olá! Gostaria de receber o estudo amostra da Cota Capital Intelligence.');
+  return HEAD('Estudo amostra') + `</head><body><div class="w">${NAV}
+<main style="padding-bottom:64px;max-width:720px"><p class="eyebrow">Estudo amostra · por convite</p>
+<h1 style="max-width:22ch">Litoral de Santa Catarina e Serra Gaúcha</h1>
+<p class="lede">Este estudo amostra é liberado pela Cota Capital para empresas convidadas. Abra pelo link pessoal que você recebeu. Se o link não funcionou ou expirou, fale com a gente.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px"><a class="btn" style="width:auto;margin:0" href="${wa}" target="_blank" rel="noopener">Pedir acesso no WhatsApp</a><a class="btn ghost" style="width:auto;margin:0" href="/estudos">Conhecer os estudos</a></div>
+</main></div></body></html>`;
+}
+
 function barra(expira) {
   return `<div id="cci-acc" style="position:fixed;right:14px;bottom:14px;z-index:99999;display:flex;gap:10px;align-items:center;font:600 13px/1 system-ui,sans-serif;background:rgba(6,10,16,.92);color:#EEF1F5;border:1px solid #1F3247;border-radius:999px;padding:9px 14px;box-shadow:0 8px 24px rgba(0,0,0,.35)">Acesso até ${esc(data(expira))}<button onclick="fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:'{&quot;sair&quot;:true}'}).then(function(){location.reload()})" style="font:inherit;color:#E3B95C;background:none;border:0;cursor:pointer;padding:0">Sair</button></div>`;
 }
@@ -97,11 +169,20 @@ module.exports = async (req, res) => {
   res.setHeader('X-Robots-Tag', 'noindex, nofollow');
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   if (!ESTUDOS[slug]) { res.statusCode = 404; return res.end('Estudo não encontrado'); }
+  // Link pessoal (?k=...): entra direto, sem código. Grava a sessão e volta para o endereço limpo.
+  const convite = req.query && req.query.k ? lerConvite(req.query.k, slug) : null;
+  if (convite) {
+    res.statusCode = 302;
+    res.setHeader('Set-Cookie', cookieSessao(assinarSessao(convite), 60 * 60 * 24 * 400));
+    res.setHeader('Location', `/acesso/${slug}`);
+    return res.end();
+  }
   try {
     const email = lerSessao(req);
     let expira = null;
     if (email) expira = await rpc('cci_acesso', { p_email: email, p_estudo: slug });
     if (email && expira && new Date(expira) > new Date()) {
+      if (slug === AMOSTRA_GERAL) return res.end(paginaAmostra(expira));
       let html = abrirEstudo(slug);
       if (!/<html/i.test(html)) {
         const i = html.indexOf('<div class="wrap">'); // a página do estudo é cabeçalho (title/style) + corpo a partir de .wrap
@@ -110,6 +191,7 @@ module.exports = async (req, res) => {
       }
       return res.end(html.replace(/<\/body>(?![\s\S]*<\/body>)/i, barra(expira) + '</body>'));
     }
+    if (slug === AMOSTRA_GERAL) return res.end(paginaConvite());
     if (req.query && req.query.amostra && lerLead(req)) {
       const html = abrirEstudo(slug, 'amostras');
       const faixa = `<div style="position:sticky;top:0;z-index:99999;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:center;padding:10px 16px;background:#060A10;color:#EEF1F5;font:600 14px/1.3 system-ui,sans-serif">Você está vendo a amostra grátis de ${esc(ESTUDOS[slug])}<a href="/acesso/${slug}" style="color:#10161D;background:#E3B95C;text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:700">Comprar o estudo completo · R$ 199,90</a></div>`;
@@ -119,6 +201,6 @@ module.exports = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.statusCode = 500;
-    return res.end(pagina(slug, {}));
+    return res.end(slug === AMOSTRA_GERAL ? paginaConvite() : pagina(slug, {}));
   }
 };
