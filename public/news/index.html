@@ -1,75 +1,235 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>News do mercado imobiliário · Cota Capital</title>
-<meta name="description" content="Notícias diárias do mercado imobiliário do litoral de Santa Catarina e da Serra Gaúcha, selecionadas pela SC Cota Capital Intelligence.">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>News Mercado Imobiliário · Litoral de SC e Serra Gaúcha</title>
+<meta name="description" content="As notícias do mercado imobiliário do litoral de Santa Catarina e da Serra Gaúcha, todos os dias: lançamentos, preços, crédito, construtoras e obras.">
+<meta name="theme-color" content="#0E2233">
+<meta property="og:title" content="News Mercado Imobiliário">
+<meta property="og:description" content="O dia do mercado imobiliário no litoral de SC e na Serra Gaúcha.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://estudos.cotacapitalinvestimentos.com.br/news">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E2233'/%3E%3Cpath d='M18 46V18h6l16 18V18h6v28h-6L24 28v18z' fill='%23EEF2F3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Hanken+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
-/* Layout: coluna editorial escura, destaques em grade 2-up no topo e lista do dia agrupada por data abaixo */
-:root{--bg:#060A10;--card:#0E1B2A;--card2:#0B1622;--line:#1F3247;--ink:#EEF1F5;--ink2:#B4C0CE;--mut:#8C9AAB;--gold:#E3B95C;--d:"Archivo",Arial,sans-serif;--b:"Hanken Grotesk",Arial,sans-serif;--m:"Space Mono",monospace}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(60% 34% at 50% 0%,#0F2236 0%,var(--bg) 70%);color:var(--ink);font-family:var(--b);overflow-x:hidden}
-a{color:inherit}.w{max-width:1040px;margin:0 auto;padding:28px 16px 0}
-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:34px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none}.seal{width:48px;height:48px;border-radius:12px;background:#fff;display:grid;place-items:center;flex:none}.seal img{width:40px;height:40px;object-fit:contain}
-.brand span{font:700 12px/1.3 var(--m);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
-nav .links a{font:600 15px/1 var(--b);color:var(--ink2);text-decoration:none;margin-left:20px}nav .links a:hover,nav .links a[aria-current]{color:var(--ink)}
-h1{font:800 clamp(30px,5vw,48px)/1.05 var(--d);margin:0 0 12px;letter-spacing:-.015em}
-.lede{color:var(--ink2);font-size:17px;line-height:1.6;max-width:62ch;margin:0 0 28px}
-.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:26px}
-.ctrl input{flex:1 1 240px;font:400 16px var(--b);color:var(--ink);background:#0A1520;border:1px solid var(--line);border-radius:12px;padding:12px 14px;outline:none}
-.ctrl input:focus{border-color:var(--gold)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font:600 14px/1 var(--b);color:var(--ink2);background:transparent;border:1px solid var(--line);border-radius:999px;padding:9px 14px;cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#10161D}
-.chip:focus-visible,.ctrl input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.top{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:34px}
-.card{display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:22px;text-decoration:none;transition:border-color .15s}
-.card:hover{border-color:var(--gold)}
-.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:700 11px/1 var(--m);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
-.tag{color:var(--gold)}
-.card h2,.item h3{margin:0;font:800 21px/1.25 var(--d)}.item h3{font-size:18px}
-.card p,.item p{margin:0;color:var(--ink2);line-height:1.55;font-size:15px}
-.src{font:600 14px/1 var(--b);color:var(--gold);margin-top:auto}
-.day{font:700 12px/1 var(--m);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);border-top:1px solid var(--line);padding-top:16px;margin:26px 0 6px}
-.item{display:block;text-decoration:none;padding:16px 0;border-bottom:1px solid #15263A}
-.item:hover h3{color:var(--gold)}.item .meta{margin-bottom:8px}.item p{margin-top:6px}
-.empty{color:var(--mut);padding:30px 0}
-.cta{margin-top:40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:22px}
-.cta b{font:800 20px/1.2 var(--d)}.cta p{margin:6px 0 0;color:var(--ink2)}
-.btn{display:inline-block;text-decoration:none;font:800 15px/1 var(--d);color:#10161D;background:linear-gradient(90deg,var(--gold),#C99A3E);border-radius:12px;padding:14px 18px}
-.foot{margin-top:34px;color:var(--mut);font-size:13px;line-height:1.7}
-@media (max-width:760px){.top{grid-template-columns:1fr}nav{flex-wrap:wrap}nav .links a{margin:0 16px 0 0}}
-@media (prefers-reduced-motion:reduce){.card{transition:none}}
-</style><link rel="stylesheet" href="/assets/site.css"></head><body><div class="w">
-<header class="cci-nav"><a class="cci-brand" href="/"><span class="cci-seal"><img src="/assets/selo.png" alt=""></span><span><b>Cota Capital Intelligence</b><small>Mercado imobiliário do sul do Brasil</small></span></a><div class="cci-links" role="navigation" aria-label="Principal"><a href="/">Início</a><a href="/estudos">Estudos</a><a href="/painel">Painel SC</a><a href="/news" aria-current="page">News</a><a href="/diario" class="cci-cta">Diário</a></div></header>
-<h1>News do mercado imobiliário</h1>
-<p class="lede">O que move o mercado no litoral de Santa Catarina e na Serra Gaúcha: lançamentos, preços, crédito e construtoras. Atualizado todos os dias.</p>
-<div class="ctrl"><label for="q" style="position:absolute;left:-9999px">Buscar notícias</label><input id="q" type="search" placeholder="Buscar por cidade, construtora, assunto…"><div class="chips" id="reg" role="group" aria-label="Região"></div></div>
-<div class="top" id="top"></div>
-<div id="list"><p class="empty">Carregando notícias…</p></div>
-<div class="cta"><div><b>Quer o mapa completo da oferta?</b><p>Os estudos da Cota Capital Intelligence mostram preço por m², concorrência e lacunas de produto por cidade.</p></div><a class="btn" href="/estudos">Ver os estudos</a></div>
-<p style="color:var(--mut);font-size:13px;margin:40px 0 0">As notícias são resumos com link para a fonte original; o conteúdo completo pertence a cada veículo.</p><footer class="cci-foot"><div class="cci-fr"><div class="cci-fb"><b>Cota Capital Intelligence</b><span>Inteligência de mercado imobiliário do sul do Brasil.</span></div><div class="cci-fl" role="navigation" aria-label="Rodapé"><a href="/">Início</a><a href="/estudos">Estudos</a><a href="/painel">Painel do Incorporador</a><a href="/news">News</a><a href="/diario">Diário Imobiliário</a><a href="/diario/cancelar">Cancelar assinatura</a><a href="https://cotacapitalinvestimentos.com.br">Cota Capital Investimentos</a></div></div>Inteligência: Cota Capital Investimentos · Emissão: Tis Marketing Intelligence · CNPJ 10.853.561/0001-97<br>Dados de oferta: plataformas de comercialização de imóveis; os dados pertencem aos seus titulares. Não é recomendação de investimento.</footer>
+/* Layout: masthead + trajeto da costa como filtro; manchete com coluna lateral; edição do dia em lista agrupada por data */
+:root{
+  --nevoa:#EEF2F3;--papel:#FBFCFC;--tinta:#0E2233;--tinta2:#3B4E5E;--mut:#66788A;--linha:#D3DDE2;
+  --mar:#0F6E74;--mar-s:#DCEEEE;--pinho:#2C5A39;--pinho-s:#E1ECE2;--ardosia:#55667A;--ardosia-s:#E6EAEF;--areia:#E7CC92;
+  --d:"Bricolage Grotesque",system-ui,sans-serif;--s:"Source Serif 4",Georgia,serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--nevoa);color:var(--tinta);font:400 17px/1.6 var(--s)}
+a{color:inherit}
+.w{max-width:1120px;margin:0 auto;padding:0 16px}
+:focus-visible{outline:3px solid var(--mar);outline-offset:3px;border-radius:4px}
+
+/* masthead */
+.mast{padding:30px 0 18px}
+.mast-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 20px;font:500 15px/1.4 var(--d);color:var(--tinta2)}
+.mast h1{font:800 clamp(40px,8.4vw,104px)/.92 var(--d);letter-spacing:-.035em;margin:18px 0 12px;font-variation-settings:"opsz" 96}
+.mast h1 span{display:block;color:var(--mar)}
+.mast p{margin:0;max-width:58ch;font-size:19px;color:var(--tinta2)}
+
+/* trajeto da costa */
+.rota{margin:26px 0 8px;padding:18px 0 6px;border-top:2px solid var(--tinta)}
+.rota-t{font:600 14px/1.3 var(--d);color:var(--tinta2);margin:0 0 14px}
+.trilha{display:flex;align-items:flex-start;gap:0;overflow-x:auto;scrollbar-width:none;padding:4px 2px 10px}
+.trilha::-webkit-scrollbar{display:none}
+.parada{flex:none;position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:none;border:0;padding:0 26px 0 0;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.parada::before{content:"";position:absolute;left:8px;right:0;top:8px;height:2px;background:var(--linha)}
+.parada.fim::before{display:none}
+.parada.salto{padding-right:44px}.parada.salto::before{background:repeating-linear-gradient(90deg,var(--linha) 0 6px,transparent 6px 12px)}
+.ponto{position:relative;z-index:1;width:18px;height:18px;border-radius:50%;background:var(--papel);border:3px solid var(--c,var(--ardosia));transition:transform .15s}
+.parada b{font:700 16px/1.2 var(--d);white-space:nowrap}
+.parada small{font:500 13px/1 var(--d);color:var(--mut)}
+.parada[aria-pressed="true"] .ponto{background:var(--c,var(--ardosia));transform:scale(1.15)}
+.parada[aria-pressed="true"] b{color:var(--c,var(--tinta))}
+.parada:hover b{text-decoration:underline;text-underline-offset:3px}
+
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 30px}
+.ctrl input,.ctrl select{font:500 16px var(--d);color:var(--tinta);background:var(--papel);border:1.5px solid var(--linha);border-radius:10px;padding:11px 14px}
+.ctrl input{flex:1 1 260px;min-width:0}
+.ctrl select{flex:0 1 230px}
+.ctrl input:focus,.ctrl select:focus{border-color:var(--mar);outline:none}
+.limpar{font:600 15px var(--d);color:var(--mar);background:none;border:0;cursor:pointer;padding:8px 4px}
+
+/* manchete + lateral */
+.capa{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;align-items:start;margin-bottom:46px}
+.man{display:block;text-decoration:none;border-left:6px solid var(--c,var(--mar));padding:4px 0 4px 22px}
+.man h2{font:800 clamp(28px,3.6vw,44px)/1.08 var(--d);letter-spacing:-.02em;margin:10px 0 14px;text-wrap:balance}
+.man p{margin:0;font-size:19px;line-height:1.65;color:var(--tinta2);max-width:62ch}
+.man:hover h2{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px}
+.sec2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:30px}
+.sec2 a{display:block;text-decoration:none;border-top:3px solid var(--c,var(--mar));padding-top:12px}
+.sec2 h3{font:700 21px/1.22 var(--d);margin:8px 0 6px}
+.sec2 p{margin:0;font-size:16px;color:var(--tinta2)}
+.sec2 a:hover h3{text-decoration:underline;text-underline-offset:4px}
+.tag{display:inline-flex;align-items:center;gap:8px;font:600 14px/1.2 var(--d);color:var(--c,var(--ardosia))}
+.tag::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c,var(--ardosia))}
+.tag i{font-style:normal;color:var(--mut);font-weight:500}
+.fonte{display:inline-block;margin-top:10px;font:600 15px var(--d);color:var(--mar)}
+
+.lado{display:grid;gap:18px}
+.box{background:var(--papel);border:1.5px solid var(--linha);border-radius:14px;padding:20px}
+.box h3{font:700 19px/1.25 var(--d);margin:0 0 6px}
+.box p{margin:0 0 14px;font-size:15.5px;color:var(--tinta2);line-height:1.55}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 15px/1 var(--d);border-radius:999px;padding:12px 18px}
+.btn.wa{background:#1F9D55;color:#fff}.btn.wa svg{width:18px;height:18px}
+.btn.ln{border:1.5px solid var(--tinta);color:var(--tinta)}
+.btn:hover{filter:brightness(1.08)}
+.num{font:800 46px/1 var(--d);letter-spacing:-.03em;color:var(--mar)}
+.num-l{font:500 15px/1.4 var(--d);color:var(--tinta2);margin-top:6px}
+
+/* edição */
+.dia{display:flex;align-items:baseline;gap:14px;margin:38px 0 4px;padding-bottom:10px;border-bottom:2px solid var(--tinta)}
+.dia h2{font:800 30px/1 var(--d);letter-spacing:-.02em;margin:0}
+.dia span{font:500 15px var(--d);color:var(--mut)}
+.it{display:grid;grid-template-columns:200px minmax(0,1fr);gap:22px;padding:20px 0;border-bottom:1px solid var(--linha)}
+.it h3{font:700 21px/1.25 var(--d);margin:0 0 6px;text-wrap:pretty}
+.it h3 a{text-decoration:none}.it h3 a:hover{text-decoration:underline;text-underline-offset:4px}
+.it p{margin:0;font-size:16.5px;color:var(--tinta2);max-width:70ch}
+.it .meta{display:grid;gap:6px;align-content:start;padding-top:3px}
+.it .meta em{font:500 14px/1.3 var(--d);font-style:normal;color:var(--mut)}
+.vazio{padding:40px 0;font:500 18px/1.5 var(--d);color:var(--tinta2)}
+.mais{margin:26px 0 0;font:700 16px var(--d);color:var(--tinta);background:var(--papel);border:1.5px solid var(--tinta);border-radius:999px;padding:13px 22px;cursor:pointer}
+
+footer{margin-top:70px;padding:30px 0 40px;border-top:2px solid var(--tinta);display:grid;grid-template-columns:1.3fr 1fr;gap:30px;font-size:15px;color:var(--tinta2)}
+footer b{display:block;font:800 22px/1.1 var(--d);color:var(--tinta);letter-spacing:-.02em;margin-bottom:8px}
+footer p{margin:0 0 10px;line-height:1.6}
+footer a{color:var(--mar);font-weight:600}
+
+.sk{color:transparent!important;background:linear-gradient(90deg,#E2E9EC,#F1F5F6,#E2E9EC);background-size:200% 100%;animation:sk 1.4s infinite;border-radius:6px}
+@keyframes sk{to{background-position:-200% 0}}
+
+@media (max-width:900px){.capa{grid-template-columns:minmax(0,1fr)}.lado{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){
+  body{font-size:16px}.mast p{font-size:17px}
+  .sec2,.lado,footer{grid-template-columns:minmax(0,1fr)}
+  .it{grid-template-columns:minmax(0,1fr);gap:8px}
+  .it .meta{grid-auto-flow:column;justify-content:start;gap:14px}
+  .man{padding-left:16px}.man p{font-size:17px}
+  .ctrl select{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}.ponto{transition:none}}
+</style>
+</head>
+<body>
+<div class="w">
+<header class="mast">
+  <div class="mast-top"><span id="hoje">Edição de hoje</span><a href="/" style="text-decoration:none">por Cota Capital Intelligence</a></div>
+  <h1>News Mercado <span>Imobiliário</span></h1>
+  <p>O que move o mercado imobiliário do litoral de SC e da Serra Gaúcha: lançamentos, preços, crédito, construtoras e obras. Atualizado todas as manhãs.</p>
+</header>
+
+<nav class="rota" aria-label="Filtrar por região">
+  <p class="rota-t">Escolha um trecho do litoral ou a Serra</p>
+  <div class="trilha" id="trilha"></div>
+</nav>
+
+<div class="ctrl">
+  <label for="q" style="position:absolute;left:-9999px">Buscar notícias</label>
+  <input id="q" type="search" placeholder="Buscar construtora, bairro, assunto" autocomplete="off">
+  <label for="cat" style="position:absolute;left:-9999px">Assunto</label>
+  <select id="cat"><option value="">Todos os assuntos</option></select>
+  <button class="limpar" id="limpar" type="button" hidden>Limpar filtros</button>
 </div>
+
+<section class="capa" id="capa" aria-label="Destaques">
+  <div>
+    <div class="man"><span class="tag sk">Carregando</span><h2 class="sk">Carregando as notícias de hoje</h2><p class="sk">Um instante</p></div>
+  </div>
+  <aside class="lado">
+    <div class="box"><div class="num" id="n-hoje">–</div><div class="num-l" id="n-hoje-l">notícias na edição mais recente</div></div>
+    <div class="box">
+      <h3>Receba no WhatsApp</h3>
+      <p>Siga o canal e receba as principais notícias do dia direto no celular.</p>
+      <a class="btn wa" href="https://whatsapp.com/channel/0029VbDn37t8PgsJoyTgP52d" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.8 3 .6a2.5 2.5 0 0 0 1.7-1.2 2 2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3Z"/></svg>Seguir o canal</a>
+    </div>
+    <div class="box">
+      <h3>Quer os números por trás das notícias?</h3>
+      <p>Preço por m², estoque e concorrência de cada cidade nos estudos da Cota Capital Intelligence.</p>
+      <a class="btn ln" href="/estudos">Ver os estudos de mercado</a>
+    </div>
+  </aside>
+</section>
+
+<main id="lista" aria-live="polite"></main>
+
+<footer>
+  <div><b>News Mercado Imobiliário</b>
+    <p>Curadoria diária de notícias do mercado imobiliário do litoral de Santa Catarina e da Serra Gaúcha. Cada notícia é um resumo com link para a matéria original; o conteúdo completo pertence a cada veículo.</p></div>
+  <div><p>Dados de mercado em parceria com a <a href="/">Cota Capital Intelligence</a>.</p>
+    <p><a href="https://whatsapp.com/channel/0029VbDn37t8PgsJoyTgP52d" target="_blank" rel="noopener">Canal no WhatsApp</a> &nbsp; <a href="/diario">Diário por e-mail</a> &nbsp; <a href="/painel">Painel do Incorporador</a> &nbsp; <a href="/estudos">Estudos</a></p></div>
+</footer>
+</div>
+
 <script>
 (function(){
 var SB='https://rgavgdkgtyolttnervgv.supabase.co',KEY='sb_publishable_Jd2XsVl_f8fZgZ4z7A7Nzg_3ItqCgg9';
-var GROUPS=[['Todas',null],['Litoral SC',['Litoral SC','Balneário Camboriú','Itajaí','Itapema','Porto Belo','Camboriú','Santa Catarina']],['Gramado e Canela',['Gramado e Canela','Rio Grande do Sul']],['Brasil',['Brasil','Geral']]];
-var all=[],g=0,q='';
+// Trajeto norte → sul pelo litoral; a Serra vem depois de um salto; Brasil fecha a linha.
+var PARADAS=[
+ {id:'',nome:'Todas',sub:'tudo',c:'var(--tinta)',regs:null},
+ {id:'itj',nome:'Itajaí',c:'var(--mar)',regs:['Itajaí']},
+ {id:'bc',nome:'Balneário Camboriú',c:'var(--mar)',regs:['Balneário Camboriú']},
+ {id:'cam',nome:'Camboriú',c:'var(--mar)',regs:['Camboriú']},
+ {id:'ita',nome:'Itapema',c:'var(--mar)',regs:['Itapema']},
+ {id:'pb',nome:'Porto Belo',c:'var(--mar)',regs:['Porto Belo']},
+ {id:'sc',nome:'Resto de SC',c:'var(--mar)',regs:['Litoral SC','Santa Catarina'],salto:true},
+ {id:'serra',nome:'Gramado e Canela',c:'var(--pinho)',regs:['Gramado e Canela','Rio Grande do Sul'],salto:true},
+ {id:'br',nome:'Brasil',c:'var(--ardosia)',regs:['Brasil','Geral'],fim:true}];
+var COR={};PARADAS.forEach(function(p){(p.regs||[]).forEach(function(r){COR[r]=p.c})});
+var all=[],sel='',q='',cat='',pagina=1,POR=6;
+var $=function(i){return document.getElementById(i)};
 function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e}
-function fmt(d){var p=d.split('-');var m=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];return +p[2]+' '+m[+p[1]-1]+' '+p[0]}
-function dayLabel(d){var t=new Date(Date.now()-3*36e5).toISOString().slice(0,10),y=new Date(Date.now()-27*36e5).toISOString().slice(0,10);return d===t?'Hoje':d===y?'Ontem':fmt(d)}
-function meta(n){var m=el('div','meta');m.appendChild(el('span','tag',n.categoria));m.appendChild(el('span',null,'· '+n.regiao));return m}
-function link(cls,n){var a=el('a',cls);a.href=n.url;a.target='_blank';a.rel='noopener noreferrer';return a}
-function render(){var list=document.getElementById('list'),top=document.getElementById('top');list.textContent='';top.textContent='';
-  var f=all.filter(function(n){var G=GROUPS[g][1];return(!G||G.indexOf(n.regiao)>=0)&&(!q||(n.titulo+' '+n.resumo+' '+n.fonte+' '+n.regiao).toLowerCase().indexOf(q)>=0)});
-  if(!f.length){list.appendChild(el('p','empty',all.length?'Nenhuma notícia com esse filtro.':'Ainda não há notícias publicadas.'));return}
-  var hl=(!q?f.filter(function(n){return n.destaque}).slice(0,2):[]);
-  hl.forEach(function(n){var a=link('card',n);a.appendChild(meta(n));a.appendChild(el('h2',null,n.titulo));a.appendChild(el('p',null,n.resumo));a.appendChild(el('span','src',n.fonte+' · '+fmt(n.data)+' ↗'));top.appendChild(a)});
-  var rest=f.filter(function(n){return hl.indexOf(n)<0}),cur=null;
-  rest.forEach(function(n){if(n.data!==cur){cur=n.data;list.appendChild(el('div','day',dayLabel(n.data)))}var a=link('item',n);a.appendChild(meta(n));a.appendChild(el('h3',null,n.titulo));a.appendChild(el('p',null,n.resumo));var s=el('p',null,'');s.appendChild(el('span','src',n.fonte+' ↗'));a.appendChild(s);list.appendChild(a)})}
-var reg=document.getElementById('reg');GROUPS.forEach(function(G,i){var b=el('button','chip',G[0]);b.type='button';b.setAttribute('aria-pressed',i===0);b.onclick=function(){g=i;[].forEach.call(reg.children,function(c,j){c.setAttribute('aria-pressed',j===i)});render()};reg.appendChild(b)});
-document.getElementById('q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();render()});
-fetch(SB+'/rest/v1/cci_news?select=data,titulo,resumo,fonte,url,regiao,categoria,destaque&order=data.desc,created_at.desc&limit=300',{headers:{apikey:KEY}})
- .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){all=d;render()})
- .catch(function(){var l=document.getElementById('list');l.textContent='';l.appendChild(el('p','empty','Não foi possível carregar as notícias agora. Tente de novo em instantes.'))});
+var MES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var SEM=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+function hojeSP(o){return new Date(Date.now()-3*36e5-(o||0)*864e5).toISOString().slice(0,10)}
+function longa(d){var p=d.split('-'),dt=new Date(Date.UTC(+p[0],+p[1]-1,+p[2]));return SEM[dt.getUTCDay()]+', '+(+p[2])+' de '+MES[+p[1]-1]}
+function rotulo(d){return d===hojeSP()?'Hoje':d===hojeSP(1)?'Ontem':longa(d).replace(/^./,function(c){return c.toUpperCase()})}
+var hoje=hojeSP();$('hoje').textContent=longa(hoje).replace(/^./,function(c){return c.toUpperCase()})+' de '+hoje.slice(0,4);
+function cor(n){return COR[n.regiao]||'var(--ardosia)'}
+function tag(n){var t=el('span','tag',n.regiao==='Geral'?'Brasil':n.regiao);t.style.setProperty('--c',cor(n));t.appendChild(el('i',null,' '+n.categoria));return t}
+function fonteLink(n){var a=el('a','fonte','Ler em '+n.fonte);a.href=n.url;a.target='_blank';a.rel='noopener';return a}
+function filtradas(){var P=PARADAS.find(function(p){return p.id===sel});
+ return all.filter(function(n){return (!P||!P.regs||P.regs.indexOf(n.regiao)>-1)&&(!cat||n.categoria===cat)&&(!q||(n.titulo+' '+n.resumo+' '+n.fonte+' '+n.regiao).toLowerCase().indexOf(q)>-1)})}
+function trilha(){var T=$('trilha');T.innerHTML='';
+ PARADAS.forEach(function(p){var n=p.regs?all.filter(function(x){return p.regs.indexOf(x.regiao)>-1}).length:all.length;
+  var b=el('button','parada'+(p.salto?' salto':'')+(p.fim?' fim':''));b.type='button';b.style.setProperty('--c',p.c);b.setAttribute('aria-pressed',String(sel===p.id));
+  b.appendChild(el('span','ponto'));b.appendChild(el('b',null,p.nome));b.appendChild(el('small',null,n+(n===1?' notícia':' notícias')));
+  b.onclick=function(){sel=p.id;pagina=1;render()};T.appendChild(b)})}
+function capa(f){var C=$('capa').firstElementChild;C.innerHTML='';
+ if(!f.length){C.appendChild(el('p','vazio','Nenhuma notícia com esses filtros. Tente outra cidade ou limpe a busca.'));return []}
+ var ord=f.slice().sort(function(a,b){return (b.data>a.data?1:b.data<a.data?-1:0)||(b.destaque-a.destaque)});
+ var top=ord[0],m=el('a','man');m.href=top.url;m.target='_blank';m.rel='noopener';m.style.setProperty('--c',cor(top));
+ m.appendChild(tag(top));m.appendChild(el('h2',null,top.titulo));m.appendChild(el('p',null,top.resumo));m.appendChild(el('span','fonte','Ler em '+top.fonte));C.appendChild(m);
+ var outras=ord.slice(1).filter(function(n){return n.destaque}).slice(0,2);if(outras.length<2)outras=outras.concat(ord.slice(1).filter(function(n){return outras.indexOf(n)<0}).slice(0,2-outras.length));
+ if(outras.length){var s=el('div','sec2');outras.forEach(function(n){var a=el('a');a.href=n.url;a.target='_blank';a.rel='noopener';a.style.setProperty('--c',cor(n));a.appendChild(tag(n));a.appendChild(el('h3',null,n.titulo));a.appendChild(el('p',null,n.resumo));s.appendChild(a)});C.appendChild(s)}
+ return [top].concat(outras)}
+function lista(f,usadas){var L=$('lista');L.innerHTML='';var resto=f.filter(function(n){return usadas.indexOf(n)<0});
+ var dias=[];resto.forEach(function(n){if(dias.indexOf(n.data)<0)dias.push(n.data)});
+ dias.slice(0,pagina*POR).forEach(function(d){var g=resto.filter(function(n){return n.data===d});
+  var h=el('div','dia');h.appendChild(el('h2',null,rotulo(d)));h.appendChild(el('span',null,g.length+(g.length===1?' notícia':' notícias')));L.appendChild(h);
+  g.forEach(function(n){var it=el('article','it'),m=el('div','meta');m.appendChild(tag(n));m.appendChild(el('em',null,n.fonte));
+   var c=el('div'),h3=el('h3'),a=el('a',null,n.titulo);a.href=n.url;a.target='_blank';a.rel='noopener';h3.appendChild(a);c.appendChild(h3);c.appendChild(el('p',null,n.resumo));c.appendChild(fonteLink(n));
+   it.appendChild(m);it.appendChild(c);L.appendChild(it)})});
+ if(dias.length>pagina*POR){var b=el('button','mais','Ver dias anteriores');b.type='button';b.onclick=function(){pagina++;render()};L.appendChild(b)}}
+function render(){trilha();var f=filtradas();lista(f,capa(f));$('limpar').hidden=!(sel||q||cat)}
+$('q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();pagina=1;render()});
+$('cat').addEventListener('change',function(e){cat=e.target.value;pagina=1;render()});
+$('limpar').onclick=function(){sel='';q='';cat='';$('q').value='';$('cat').value='';pagina=1;render()};
+fetch(SB+'/rest/v1/cci_news?select=data,titulo,resumo,fonte,url,regiao,categoria,destaque&publicado=eq.true&order=data.desc,created_at.desc&limit=600',{headers:{apikey:KEY}})
+ .then(function(r){if(!r.ok)throw r;return r.json()})
+ .then(function(rows){var vistos={};all=rows.filter(function(n){if(vistos[n.url])return false;vistos[n.url]=1;return true});
+  var ultima=all.length?all[0].data:null,nh=all.filter(function(n){return n.data===ultima}).length;
+  $('n-hoje').textContent=nh;$('n-hoje-l').textContent=ultima?(nh===1?'notícia':'notícias')+' na edição de '+rotulo(ultima).toLowerCase():'notícias hoje';
+  var cats=[];all.forEach(function(n){if(cats.indexOf(n.categoria)<0)cats.push(n.categoria)});cats.sort().forEach(function(c){$('cat').add(new Option(c,c))});
+  render()})
+ .catch(function(){$('capa').firstElementChild.innerHTML='';$('capa').firstElementChild.appendChild(el('p','vazio','Não foi possível carregar as notícias agora. Recarregue a página em instantes.'))});
 })();
-</script></body></html>
+</script>
+</body>
+</html>
