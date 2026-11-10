@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>News Mercado Imobiliário RS · Porto Alegre e Litoral Norte</title>
-<meta name="description" content="As notícias do mercado imobiliário de Porto Alegre e do Litoral Norte gaúcho, todos os dias: condomínios de luxo, loteamentos, lançamentos, crédito e obras.">
+<title>News Mercado Imobiliário RS · Porto Alegre, Litoral Norte e Serra Gaúcha</title>
+<meta name="description" content="As notícias do mercado imobiliário de Porto Alegre, do Litoral Norte gaúcho e da Serra Gaúcha, todos os dias: condomínios de luxo, loteamentos, lançamentos, crédito e obras.">
 <meta name="theme-color" content="#0E2233">
 <meta property="og:title" content="News Mercado Imobiliário RS">
-<meta property="og:description" content="O dia do mercado imobiliário em Porto Alegre e no Litoral Norte gaúcho.">
+<meta property="og:description" content="O dia do mercado imobiliário em Porto Alegre, no Litoral Norte gaúcho e na Serra.">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://estudos.cotacapitalinvestimentos.com.br/news-rs">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E2233'/%3E%3Cpath d='M18 46V18h6l16 18V18h6v28h-6L24 28v18z' fill='%23EEF2F3'/%3E%3C/svg%3E">
@@ -122,11 +122,11 @@ footer a{color:var(--mar);font-weight:600}
 <header class="mast">
   <div class="mast-top"><span id="hoje">Edição de hoje</span><a href="/" style="text-decoration:none">por Cota Capital Intelligence</a></div>
   <h1>News Mercado <span>Imobiliário RS</span></h1>
-  <p>O que move o mercado imobiliário de Porto Alegre e do Litoral Norte gaúcho: condomínios de luxo, loteamentos, lançamentos, crédito e obras. Atualizado todas as manhãs.</p>
+  <p>O que move o mercado imobiliário de Porto Alegre, do Litoral Norte gaúcho e da Serra Gaúcha: condomínios de luxo, loteamentos, lançamentos, crédito e obras. Atualizado todas as manhãs.</p>
 </header>
 
 <nav class="rota" aria-label="Filtrar por região">
-  <p class="rota-t">Da capital ao litoral, pela Freeway · <a href="/news" style="color:var(--mar)">Ver a edição Litoral SC e Serra</a></p>
+  <p class="rota-t">Da capital ao litoral e à Serra · <a href="/news" style="color:var(--mar)">Ver a edição Litoral SC</a></p>
   <div class="trilha" id="trilha"></div>
 </nav>
 
@@ -161,7 +161,7 @@ footer a{color:var(--mar);font-weight:600}
 
 <footer>
   <div><b>News Mercado Imobiliário RS</b>
-    <p>Curadoria diária de notícias do mercado imobiliário de Porto Alegre e do Litoral Norte gaúcho. Cada notícia é um resumo com link para a matéria original; o conteúdo completo pertence a cada veículo.</p></div>
+    <p>Curadoria diária de notícias do mercado imobiliário de Porto Alegre, do Litoral Norte gaúcho e da Serra Gaúcha. Cada notícia é um resumo com link para a matéria original; o conteúdo completo pertence a cada veículo.</p></div>
   <div><p>Dados de mercado em parceria com a <a href="/">Cota Capital Intelligence</a>.</p>
     <p><a href="https://whatsapp.com/channel/0029VbDn37t8PgsJoyTgP52d" target="_blank" rel="noopener">Canal no WhatsApp</a> &nbsp; <a href="/diario">Diário por e-mail</a> &nbsp; <a href="/painel">Painel do Incorporador</a> &nbsp; <a href="/estudos">Estudos</a></p></div>
 </footer>
@@ -170,13 +170,14 @@ footer a{color:var(--mar);font-weight:600}
 <script>
 (function(){
 var SB='https://rgavgdkgtyolttnervgv.supabase.co',KEY='sb_publishable_Jd2XsVl_f8fZgZ4z7A7Nzg_3ItqCgg9';
-// Trajeto norte → sul pelo litoral; a Serra vem depois de um salto; Brasil fecha a linha.
+// Capital → litoral norte → Serra → resto do estado.
 var PARADAS=[
  {id:'',nome:'Todas',c:'var(--tinta)',regs:null},
  {id:'poa',nome:'Porto Alegre',c:'var(--tijolo)',regs:['Porto Alegre'],salto:true},
  {id:'xan',nome:'Xangri-lá e Atlântida',c:'var(--mar)',regs:['Xangri-lá']},
  {id:'cap',nome:'Capão da Canoa',c:'var(--mar)',regs:['Capão da Canoa']},
  {id:'lit',nome:'Torres, Osório e outras praias',c:'var(--mar)',regs:['Litoral Norte RS']},
+ {id:'serra',nome:'Gramado e Canela',c:'var(--pinho)',regs:['Gramado e Canela'],salto:true},
  {id:'rs',nome:'Resto do RS',c:'var(--pinho)',regs:['Rio Grande do Sul'],salto:true,fim:true}];
 var COR={};PARADAS.forEach(function(p){(p.regs||[]).forEach(function(r){COR[r]=p.c})});
 var all=[],sel='',q='',cat='',pagina=1,POR=6;
@@ -218,7 +219,7 @@ function render(){trilha();var f=filtradas();lista(f,capa(f));$('limpar').hidden
 $('q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();pagina=1;render()});
 $('cat').addEventListener('change',function(e){cat=e.target.value;pagina=1;render()});
 $('limpar').onclick=function(){sel='';q='';cat='';$('q').value='';$('cat').value='';pagina=1;render()};
-fetch(SB+'/rest/v1/cci_news?select=data,titulo,resumo,fonte,url,regiao,categoria,destaque&publicado=eq.true&order=data.desc,created_at.desc&regiao=in.'+encodeURIComponent('("Porto Alegre","Xangri-lá","Capão da Canoa","Litoral Norte RS","Rio Grande do Sul")')+'&limit=600',{headers:{apikey:KEY}})
+fetch(SB+'/rest/v1/cci_news?select=data,titulo,resumo,fonte,url,regiao,categoria,destaque&publicado=eq.true&order=data.desc,created_at.desc&regiao=in.'+encodeURIComponent('("Porto Alegre","Xangri-lá","Capão da Canoa","Litoral Norte RS","Gramado e Canela","Rio Grande do Sul")')+'&limit=600',{headers:{apikey:KEY}})
  .then(function(r){if(!r.ok)throw r;return r.json()})
  .then(function(rows){var vistos={};all=rows.filter(function(n){if(vistos[n.url])return false;vistos[n.url]=1;return true});
   var ultima=all.length?all[0].data:null,nh=all.filter(function(n){return n.data===ultima}).length;
