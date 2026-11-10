@@ -126,7 +126,7 @@ footer a{color:var(--mar);font-weight:600}
 </header>
 
 <nav class="rota" aria-label="Filtrar por região">
-  <p class="rota-t">Escolha um trecho do litoral ou a Serra</p>
+  <p class="rota-t">Escolha um trecho do litoral ou a Serra · <a href="/news-rs" style="color:var(--mar)">Ver a edição Porto Alegre e Litoral Norte RS</a></p>
   <div class="trilha" id="trilha"></div>
 </nav>
 
@@ -221,7 +221,7 @@ function render(){trilha();var f=filtradas();lista(f,capa(f));$('limpar').hidden
 $('q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();pagina=1;render()});
 $('cat').addEventListener('change',function(e){cat=e.target.value;pagina=1;render()});
 $('limpar').onclick=function(){sel='';q='';cat='';$('q').value='';$('cat').value='';pagina=1;render()};
-fetch(SB+'/rest/v1/cci_news?select=data,titulo,resumo,fonte,url,regiao,categoria,destaque&publicado=eq.true&order=data.desc,created_at.desc&limit=600',{headers:{apikey:KEY}})
+fetch(SB+'/rest/v1/cci_news?select=data,titulo,resumo,fonte,url,regiao,categoria,destaque&publicado=eq.true&order=data.desc,created_at.desc&regiao=not.in.'+encodeURIComponent('("Porto Alegre","Xangri-lá","Capão da Canoa","Litoral Norte RS")')+'&limit=600',{headers:{apikey:KEY}})
  .then(function(r){if(!r.ok)throw r;return r.json()})
  .then(function(rows){var vistos={};all=rows.filter(function(n){if(vistos[n.url])return false;vistos[n.url]=1;return true});
   var ultima=all.length?all[0].data:null,nh=all.filter(function(n){return n.data===ultima}).length;
