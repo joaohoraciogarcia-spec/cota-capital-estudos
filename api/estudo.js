@@ -216,6 +216,15 @@ module.exports = async (req, res) => {
     res.setHeader('Location', `/acesso/${slug}`);
     return res.end();
   }
+  // Verificação pública: diz só qual edição está carregada (sem conteúdo do estudo).
+  if (req.query && req.query.edicao) {
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    const out = { estudo: slug };
+    for (const pasta of ['estudos', 'amostras']) {
+      try { const h = await lerEstudo(slug, pasta); const m = h && h.match(/edição ([a-zç]{3}\/\d{4})/i); out[pasta] = m ? m[1] : (h ? 'sem rótulo' : 'vazio'); } catch (e) { out[pasta] = 'erro: ' + e.message; }
+    }
+    return res.end(JSON.stringify(out));
+  }
   try {
     await espelhar();
     const email = lerSessao(req);
