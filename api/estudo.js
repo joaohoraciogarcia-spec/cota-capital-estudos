@@ -17,11 +17,23 @@ function abrirEstudo(slug, pasta = 'estudos') {
 
 // Conteúdo publicado: primeiro o banco (versão atualizada pelo admin), senão o arquivo cifrado do repositório.
 const cache = new Map();
+// Edições novas ficam em private/v2, cifradas com a chave da versão 2 (guardada no banco, lida com a chave do servidor).
+let chaveV2 = null;
+async function abrirV2(slug, pasta) {
+  const f = path.join(__dirname, '..', 'private', 'v2', pasta, `${slug}.enc`);
+  if (!fs.existsSync(f)) return null;
+  if (!chaveV2) chaveV2 = Buffer.from(await rpc('cci_estudo_chave', { p_versao: 2 }), 'hex');
+  const buf = fs.readFileSync(f);
+  const d = crypto.createDecipheriv('aes-256-gcm', chaveV2, buf.subarray(0, 12));
+  d.setAuthTag(buf.subarray(12, 28));
+  return zlib.gunzipSync(Buffer.concat([d.update(buf.subarray(28)), d.final()])).toString('utf8');
+}
 async function lerEstudo(slug, pasta = 'estudos') {
   const k = pasta + '/' + slug, c = cache.get(k);
   if (c && Date.now() - c.t < 5 * 60 * 1000) return c.h;
   let h = null;
-  try { h = await rpc('cci_estudo_ler', { p_slug: slug, p_pasta: pasta }); } catch (e) { console.error(e); }
+  try { h = await abrirV2(slug, pasta); } catch (e) { console.error(e); }
+  if (!h) { try { h = await rpc('cci_estudo_ler', { p_slug: slug, p_pasta: pasta }); } catch (e) { console.error(e); } }
   if (!h) h = abrirEstudo(slug, pasta);
   cache.set(k, { h, t: Date.now() });
   return h;
