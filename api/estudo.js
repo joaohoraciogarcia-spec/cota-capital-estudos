@@ -15,6 +15,32 @@ function abrirEstudo(slug, pasta = 'estudos') {
   return zlib.gunzipSync(Buffer.concat([d.update(buf.subarray(28)), d.final()])).toString('utf8');
 }
 
+// Conteúdo publicado: primeiro o banco (versão atualizada pelo admin), senão o arquivo cifrado do repositório.
+const cache = new Map();
+async function lerEstudo(slug, pasta = 'estudos') {
+  const k = pasta + '/' + slug, c = cache.get(k);
+  if (c && Date.now() - c.t < 5 * 60 * 1000) return c.h;
+  let h = null;
+  try { h = await rpc('cci_estudo_ler', { p_slug: slug, p_pasta: pasta }); } catch (e) { console.error(e); }
+  if (!h) h = abrirEstudo(slug, pasta);
+  cache.set(k, { h, t: Date.now() });
+  return h;
+}
+// Na primeira abertura de cada instância, copia para o banco os estudos que ainda não estão lá (base para as atualizações).
+let espelhado = false;
+async function espelhar() {
+  if (espelhado) return; espelhado = true;
+  let tem = [];
+  try { tem = (await rpc('cci_estudo_existentes', {})) || []; } catch (e) { console.error(e); return; }
+  for (const pasta of ['estudos', 'amostras']) {
+    for (const nome of fs.readdirSync(path.join(__dirname, '..', 'private', pasta))) {
+      const slug = nome.replace(/\.enc$/, '');
+      if (tem.includes(pasta + '/' + slug)) continue;
+      try { await rpc('cci_estudo_espelhar', { p_slug: slug, p_pasta: pasta, p_html: abrirEstudo(slug, pasta) }); } catch (e) { console.error(e); }
+    }
+  }
+}
+
 function pagina(slug, { email, expirou }) {
   const titulo = ESTUDOS[slug];
   const wa = `https://wa.me/${PIX.whatsapp}?text=` + encodeURIComponent(
@@ -102,9 +128,10 @@ const REGIOES = [
   { slug: 'gramado-canela', nome: 'Gramado e Canela', cid: 'Gramado · Canela', uf: 'Serra Gaúcha · RS' },
 ];
 
-function paginaAmostra(expira) {
-  const regs = REGIOES.map(r => {
-    let h = abrirEstudo(r.slug, 'amostras');
+async function paginaAmostra(expira) {
+  const htmls = await Promise.all(REGIOES.map(r => lerEstudo(r.slug, 'amostras')));
+  const regs = REGIOES.map((r, n) => {
+    let h = htmls[n];
     const tit = ((h.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1] || '').replace(/<[^>]+>/g, '').trim();
     h = /<head[^>]*>/i.test(h) ? h.replace(/<head([^>]*)>/i, '<head$1><base target="_top">') : '<base target="_top">' + h;
     return Object.assign({ tit, src: h.replace(/&/g, '&amp;').replace(/"/g, '&quot;') }, r);
@@ -178,12 +205,13 @@ module.exports = async (req, res) => {
     return res.end();
   }
   try {
+    await espelhar();
     const email = lerSessao(req);
     let expira = null;
     if (email) expira = await rpc('cci_acesso', { p_email: email, p_estudo: slug });
     if (email && expira && new Date(expira) > new Date()) {
-      if (slug === AMOSTRA_GERAL) return res.end(paginaAmostra(expira));
-      let html = abrirEstudo(slug);
+      if (slug === AMOSTRA_GERAL) return res.end(await paginaAmostra(expira));
+      let html = await lerEstudo(slug);
       if (!/<html/i.test(html)) {
         const i = html.indexOf('<div class="wrap">'); // a página do estudo é cabeçalho (title/style) + corpo a partir de .wrap
         const head = i > 0 ? html.slice(0, i) : '', body = i > 0 ? html.slice(i) : html;
@@ -193,7 +221,7 @@ module.exports = async (req, res) => {
     }
     if (slug === AMOSTRA_GERAL) return res.end(paginaConvite());
     if (req.query && req.query.amostra && lerLead(req)) {
-      const html = abrirEstudo(slug, 'amostras');
+      const html = await lerEstudo(slug, 'amostras');
       const faixa = `<div style="position:sticky;top:0;z-index:99999;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:center;padding:10px 16px;background:#060A10;color:#EEF1F5;font:600 14px/1.3 system-ui,sans-serif">Você está vendo a amostra grátis de ${esc(ESTUDOS[slug])}<a href="/acesso/${slug}" style="color:#10161D;background:#E3B95C;text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:700">Comprar o estudo completo · R$ 199,90</a></div>`;
       return res.end(html.replace(/<body([^>]*)>/i, (m) => m + faixa));
     }
